@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'components/textfield.dart';
 import 'package:weather/letspage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyLoginPage extends StatelessWidget {
   MyLoginPage({super.key});
@@ -33,8 +34,8 @@ class MyLoginPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              const Text('Login',textAlign: TextAlign.left,style: TextStyle(color:Colors.black,fontSize: 36),),              
-              const Text('Enter your account details to login.',textAlign: TextAlign.left,style: TextStyle(color: Colors.black,fontSize: 16),),
+              Text('Login',textAlign: TextAlign.left,style: GoogleFonts.poppins(color:Colors.black,fontSize: 36,fontWeight: FontWeight.w400),),              
+              Text('Enter your account details to login.',textAlign: TextAlign.left,style: GoogleFonts.poppins(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w400),),
               const SizedBox(height: 51,),
               Form(
                 key: _formKey,
@@ -49,7 +50,7 @@ class MyLoginPage extends StatelessWidget {
                 )
               ),
               const SizedBox(height: 10,),
-              const Align(alignment: Alignment.topRight,child: Text('Forgot password?',style: TextStyle(fontSize: 16),),),
+              Align(alignment: Alignment.topRight,child: Text('Forgot password?',style: GoogleFonts.poppins(fontSize: 16),),),
               const SizedBox(height: 30,),
               //--------or-------
               SizedBox(
@@ -62,10 +63,10 @@ class MyLoginPage extends StatelessWidget {
                         color: Colors.grey[400],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
+                    Padding(
+                      padding:const EdgeInsets.symmetric(
                         horizontal: 10.0),
-                      child: Text('or',style: TextStyle(color: Colors.black, fontSize: 16),),
+                      child: Text('or',style: GoogleFonts.poppins(color: Colors.black, fontSize: 16),),
                     ),
                     Expanded(
                       child: Divider(
@@ -77,7 +78,7 @@ class MyLoginPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 26),
-              const Center(child: Text('Sign in with',style: TextStyle(fontSize: 28,color: Colors.white),)),
+              Center(child: Text('Sign in with',style: GoogleFonts.poppins(fontSize: 28,color: Colors.white),)),
               const SizedBox(height: 35),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -99,7 +100,7 @@ class MyLoginPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 6,),
-                      const Text('Google',style: TextStyle(fontSize: 16,color: Colors.white))
+                      Text('Google',style: GoogleFonts.poppins(fontSize: 16,color: Colors.white))
                     ],
                   ),
                   Column(
@@ -118,12 +119,12 @@ class MyLoginPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 6,),
-                      const Text('Apple',style: TextStyle(fontSize: 16,color: Colors.white),)
+                      Text('Apple',style: GoogleFonts.poppins(fontSize: 16,color: Colors.white),)
                     ],
                   ),
                 ],
               ),
-              const SizedBox(height: 58,),
+              const SizedBox(height: 50,),
               Center(
                 child: SizedBox(
                   height: 76,
@@ -140,7 +141,7 @@ class MyLoginPage extends StatelessWidget {
                     ),
                     onPressed: (){                                               
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const LetsPage()));                      
-                    }, child: const Text('Login',style: TextStyle(color: Colors.white,fontSize: 28),),              
+                    }, child: Text('Login',style: GoogleFonts.poppins(color: Colors.white,fontSize: 28),),              
                   ),
                 ),
               ),
@@ -148,9 +149,9 @@ class MyLoginPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
-                children: const[
-                  Text("I'm new here",style: TextStyle(fontSize: 20,decoration: TextDecoration.underline,color: Colors.white),),                
-                  Icon(Icons.arrow_forward,color: Colors.white,)
+                children:[
+                  Text("I'm new here",style: GoogleFonts.poppins(fontSize: 20,decoration: TextDecoration.underline,color: Colors.white),),                
+                  const Icon(Icons.arrow_forward,color: Colors.white,)
                 ],
               ),
             ]
