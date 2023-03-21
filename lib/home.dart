@@ -66,12 +66,19 @@ class HomePage extends StatelessWidget {
                   ],
                 ),                
               ],
-            ),            
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Image.asset('images/weather.png',width: 375,height: 375,fit: BoxFit.cover,),
-            ],),
+            ),  
+            LayoutBuilder(
+              builder: (context, constraints) => Stack(
+                children: [ 
+                  Image.asset('images/weather.png',width: 400,height: 400,fit: BoxFit.cover,),
+                  Positioned(
+                    left: 100,
+                    top: 155,                    
+                    child: Text('25°',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 44,color: Colors.white),)
+                  ),
+                ],
+              )
+            ),
             const SizedBox(height: 39,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -92,7 +99,6 @@ class HomePage extends StatelessWidget {
                 )
               ],
             )
-
           ],
         ),
       ),

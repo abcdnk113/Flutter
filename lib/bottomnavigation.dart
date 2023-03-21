@@ -29,10 +29,11 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[index],
+      body: screens[index],      
       bottomNavigationBar: NavigationBarTheme(        
         data: const NavigationBarThemeData(
-          indicatorColor: Colors.black,          
+          indicatorColor: Colors.black,
+          //iconTheme: MaterialStateProperty.all()  
         ),
         child: NavigationBar(
           labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
@@ -59,7 +60,8 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
               icon: Iconify(Ph.lightning_bold) ,
               label: 'Setting',
               selectedIcon: Iconify(Ph.lightning_bold,color: Colors.white,))
-          ]),
+          ]
+        ),
       ),
     );
   }
