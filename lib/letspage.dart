@@ -29,8 +29,8 @@ class LetsPage extends StatelessWidget {
               ),
             ), 
             Container(
-          padding: EdgeInsets.symmetric(vertical: w*.12,horizontal: h*.04),
-          child: Column(          
+            padding: EdgeInsets.symmetric(vertical: w*.12,horizontal: h*.04),
+            child: Column(          
             children: [
             const Spacer(flex: 4,),          
             Container(
@@ -71,7 +71,7 @@ class LetsPage extends StatelessWidget {
                   backgroundColor:const MaterialStatePropertyAll<Color>(Color.fromRGBO(12, 24, 35, 1)),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)
+                      borderRadius: BorderRadius.circular(16)
                     )
                   )            
                 ),

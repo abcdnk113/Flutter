@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -18,19 +20,19 @@ class bottomNavigationBar extends StatefulWidget {
 class _bottomNavigationBarState extends State<bottomNavigationBar> {
   int index = 0;
   final screens = [
-    HomePage(),
-    MoodPage(),
-    MapPage(),
-    SettingPage(),
+    const HomePage(),
+    const MoodPage(),
+    const MapPage(),
+    const SettingPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[index],
-      bottomNavigationBar: NavigationBarTheme(
+      bottomNavigationBar: NavigationBarTheme(        
         data: const NavigationBarThemeData(
-          indicatorColor: Colors.black45,
+          indicatorColor: Colors.black,          
         ),
         child: NavigationBar(
           labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
@@ -41,17 +43,22 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
           animationDuration: const Duration(seconds: 3),
           destinations: const[
             NavigationDestination(
-              icon: Iconify(MaterialSymbols.sunny_outline_rounded),
+              icon: Iconify(MaterialSymbols.sunny_outline_rounded,),    
+              selectedIcon: Iconify(MaterialSymbols.sunny_outline_rounded,color: Colors.white,),          
               label: 'Home',),
             NavigationDestination(
               icon: Iconify(MaterialSymbols.cloud_outline) ,
+              selectedIcon: Iconify(MaterialSymbols.cloud_outline,color: Colors.white,) ,
               label: 'Mood',),
             NavigationDestination(
               icon: Iconify(MaterialSymbols.location_on_outline_rounded),
-              label: 'Maps',),
+              label: 'Maps',
+              selectedIcon: Iconify(MaterialSymbols.location_on_outline_rounded,color: Colors.white,),
+              ),              
             NavigationDestination(
               icon: Iconify(Ph.lightning_bold) ,
-              label: 'Setting',)
+              label: 'Setting',
+              selectedIcon: Iconify(Ph.lightning_bold,color: Colors.white,))
           ]),
       ),
     );

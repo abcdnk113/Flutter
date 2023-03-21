@@ -66,8 +66,11 @@ flutter:
      - images/apple.png
      - images/google.png
      - images/icons/star.png
-     - images/icons/star-2.png
+   #  - images/icons/star-2.png
      - images/icons/star-4.png
+     - images/avatar.png
+     - images/bike.png
+     - images/weather.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
