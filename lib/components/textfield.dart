@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyTextField extends StatelessWidget {
   // ignore: prefer_typing_uninitialized_variables
@@ -15,7 +16,7 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: const TextStyle(fontSize: 16),
+      style: GoogleFonts.poppins(fontSize: 16),
       validator: (val) => val!.isEmpty ? 'Not Value' : null,
       controller: controller,
       keyboardType: TextInputType.emailAddress,
@@ -37,7 +38,7 @@ class MyTextField extends StatelessWidget {
           fillColor: Colors.grey.shade200,
           filled: true,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[500],fontSize: 16)
+          hintStyle: GoogleFonts.poppins(color: Colors.grey[500],fontSize: 16)
       ),
     );
   }
@@ -64,7 +65,7 @@ class _MyPasswordTextFieldState extends State<MyPasswordTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: const TextStyle(fontSize: 16),
+      style: GoogleFonts.poppins(fontSize: 16),
       validator: (val) => val!.isEmpty ? 'Not Value' : null,
       controller: widget.controller,
       keyboardType: TextInputType.visiblePassword,
@@ -92,7 +93,7 @@ class _MyPasswordTextFieldState extends State<MyPasswordTextField> {
           fillColor: Colors.grey.shade200,
           filled: true,
           hintText: widget.hintText,
-          hintStyle: TextStyle(color: Colors.grey[500],fontSize: 16
+          hintStyle: GoogleFonts.poppins(color: Colors.grey[500],fontSize: 16
         )
       ),
     );

@@ -37,6 +37,7 @@ dependencies:
   image_gradient: ^0.0.2
   google_fonts: ^4.0.3
   iconify_flutter: ^0.0.5
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,7 @@ flutter:
      - images/avatar.png
      - images/bike.png
      - images/weather.png
+     - images/circle.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart'; 
-import 'package:iconify_flutter/icons/material_symbols.dart'; 
+import 'package:iconify_flutter/icons/material_symbols.dart';
+import 'package:weather/model/weather.dart';
+import 'package:weather/network/request.dart'; 
 
 
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  late Future<WeatherClass> futureWeather;
+
+  @override
+
+  void initState() {
+    super.initState();
+    futureWeather = fetchWeather();
+  }
+
   Widget build(BuildContext context) {
     double w= MediaQuery.of(context).size.width;
     double h=MediaQuery.of(context).size.height;
@@ -43,7 +59,7 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                const Iconify(MaterialSymbols.dashboard_outline) // widget               
+                const Iconify(MaterialSymbols.dashboard_outline,size: 32,color: Colors.black38,) // widget               
               ],
             ),
             const SizedBox(height: 48,),
@@ -67,18 +83,49 @@ class HomePage extends StatelessWidget {
                 ),                
               ],
             ),  
-            LayoutBuilder(
-              builder: (context, constraints) => Stack(
-                children: [ 
-                  Image.asset('images/weather.png',width: 400,height: 400,fit: BoxFit.cover,),
-                  Positioned(
-                    left: 100,
-                    top: 155,                    
-                    child: Text('25°',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 44,color: Colors.white),)
-                  ),
-                ],
-              )
+            // LayoutBuilder(
+            //   builder: (context, constraints) => Stack(
+            //     children: [ 
+            //       Image.asset('images/weather.png',width: 400,height: 400,fit: BoxFit.cover,),
+            //       Positioned(
+            //         left: 100,
+            //         top: 155,                    
+            //         child: Text('25°',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 44,color: Colors.white),)
+            //       ),
+            //     ],
+            //   )
+            // ),
+
+            Center(
+            child: FutureBuilder<WeatherClass>(
+              future: futureWeather,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return 
+                  Center(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children:[
+                        Image.asset('images/circle.png',width: 420,height: 420,fit: BoxFit.cover,),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("${snapshot.data?.main?.temp?.round().toString()}°C",style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 44,color: Colors.white),),
+                            Image.network("https://openweathermap.org/img/w/${snapshot.data?.weather![0].icon}.png",width: 100,height: 100,fit: BoxFit.cover,)
+                          ],
+                        ),
+                      ]
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }  
+              // By default, show a loading spinner.
+                return const CircularProgressIndicator();
+              },
             ),
+          ),            
             const SizedBox(height: 39,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
