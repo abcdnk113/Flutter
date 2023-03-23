@@ -112,7 +112,8 @@ class _HomePageState extends State<HomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text("${snapshot.data?.main?.temp?.round().toString()}°C",style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 44,color: Colors.white),),
-                            Image.network("https://openweathermap.org/img/w/${snapshot.data?.weather![0].icon}.png",width: 100,height: 100,fit: BoxFit.cover,)
+                            Image.network("https://openweathermap.org/img/w/${snapshot.data?.weather![0].icon}.png",width: 100,height: 100,fit: BoxFit.cover,),
+                            Text(snapshot.data!.weather![0].description!,style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.w400,color: Colors.white),)
                           ],
                         ),
                       ]
@@ -127,24 +128,36 @@ class _HomePageState extends State<HomePage> {
             ),
           ),            
             const SizedBox(height: 39,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Today's Mood",style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
-                    Text('Very Good',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 12),)
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Tomorrow's Mood",style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
-                    Text('Excelent',style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 12),)
-                  ],
-                )
-              ],
+            FutureBuilder<WeatherClass>(
+              future: futureWeather,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return 
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Today's Weather",style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                      Text(snapshot.data!.weather![0].main!.toString(),style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 12),)
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Address",style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 14),),
+                      Text(snapshot.data!.name.toString(),style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize: 12),)
+                    ],
+                  )
+                ],
+              );
+              } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }  
+              // By default, show a loading spinner.
+                return const CircularProgressIndicator();
+              },
             )
           ],
         ),

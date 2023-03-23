@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ph.dart';
-import 'home.dart';
-import 'map.dart';
-import 'mood.dart';
-import 'setting.dart';
+import 'page/home.dart';
+import 'page/map.dart';
+import 'page/mood.dart';
+import 'page/setting.dart';
 
 
 class bottomNavigationBar extends StatefulWidget {
