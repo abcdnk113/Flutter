@@ -40,6 +40,8 @@ dependencies:
   firebase_core: ^2.8.0
   google_sign_in: ^6.0.2
   google_sign_in_web: ^0.11.0+2
+  get: ^4.6.5
+  sign_in_with_apple: ^4.3.0
 
 dev_dependencies:
   flutter_test:

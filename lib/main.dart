@@ -5,7 +5,7 @@ import 'package:weather/page/letspage.dart';
 import 'package:weather/page/login.dart';
 import 'firebase_options.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -20,27 +20,31 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: //MainPage(),
-      //FirebaseAuth.instance.currentUser != null ? const MyLoginPage(): const LetsPage(),      
-      MyLoginPage(),
+      home: //MainPage(),          
+          MyLoginPage(),
     );
   }
 }
 
-
 // ignore: use_key_in_widget_constructors
-class MainPage extends StatelessWidget {  
+class MainPage extends StatefulWidget {
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context,snapshot){
-        if (snapshot.hasData){
-          return const LetsPage();
-        }else{
-          return const MyLoginPage();
-        }
-      }),
-  );   
-  
+        body: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                print('1');
+                return const LetsPage();
+              } else {
+                print('2');
+                return const MyLoginPage();
+              }
+            }),
+      );
 }
