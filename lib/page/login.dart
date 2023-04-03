@@ -25,20 +25,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  Future loGinbyGoogle() async{  
-      try {
-        await AuthServices().signInWithGoogle();
-        // ignore: use_build_context_synchronously
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const LetsPage()));
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          showSnackBar(context, "User not found", Colors.red);
-        } else if (e.code == 'wrong-password') {
-          showSnackBar(context, "Wrong password", Colors.red);
-        }
-      }
-    
+  Future loGinbyGoogle() async {
+    await AuthServices().signInWithGoogle();
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LetsPage()));
   }
 
   Future loGin() async {
@@ -47,7 +38,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: emailController.text, password: passwordController.text);
         // ignore: use_build_context_synchronously
-        Navigator.push(
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const LetsPage()));
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -183,6 +174,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                             });
                           },
                           decoration: InputDecoration(
+                              hintText: "",
                               suffixIcon: InkWell(
                                   onTap: () {
                                     setState(() {
@@ -282,10 +274,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             loGinbyGoogle();
                           },
-                            //() => AuthServices().signInWithGoogle(),//controller.login(),
+                          //() => AuthServices().signInWithGoogle(),//controller.login(),
                           child: Container(
                             width: 80,
                             height: 80,
