@@ -1,10 +1,10 @@
 // ignore_for_file: camel_case_types
-
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
-import 'package:flutter/material.dart';
 // import 'package:iconify_flutter/icons/material_symbols.dart';
 // import 'package:iconify_flutter/iconify_flutter.dart';
 // import 'package:iconify_flutter/icons/ph.dart';
+
+import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+import 'package:flutter/material.dart';
 import 'page/home.dart';
 import 'page/map.dart';
 import 'page/mood.dart';
@@ -19,7 +19,6 @@ class bottomNavigationBar extends StatefulWidget {
 
 class _bottomNavigationBarState extends State<bottomNavigationBar> {
   int index = 0;
-  bool tap = false;
   final screens = [
     const HomePage(),
     const MoodPage(),
@@ -64,7 +63,10 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
       //     ]
       //   ),
       // ),
-      bottomNavigationBar: FloatingNavbar(     
+      bottomNavigationBar: FloatingNavbar(   
+        iconSize: 24,  
+        width: double.infinity-20,
+        itemBorderRadius: 16,
         backgroundColor: Colors.transparent,
         selectedBackgroundColor: Colors.black,
         unselectedItemColor: Colors.black,

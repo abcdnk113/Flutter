@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
+import 'package:weather/components/widget.dart';
 import '../model/weather.dart';
 import '../network/request.dart';
 
@@ -14,12 +15,33 @@ class MoodPage extends StatefulWidget {
 
 class _MoodPageState extends State<MoodPage> {
   late Future<WeatherClass> futureWeather;
-
+  late List<String> _choices;
+  late int _defaultChoiceIndex;
+  late int index;
   @override
   void initState() {
     super.initState();
     futureWeather = fetchWeather();
+    _defaultChoiceIndex = 0;
+    _choices = [
+      "very good 😊",
+      "okish 😐",
+      "very bad 🙁",
+      "angry 😠",
+      "just sad for no reason 😩",
+      "I'm Very very happy 😍",
+      "Verry verry Terrible"
+    ];
   }
+
+  static const Gradient _maskingGradient = LinearGradient(
+    // This gradient goes from fully transparent to fully opaque black...
+    colors: [Colors.black, Colors.transparent],
+    // ... from the top (transparent) to half (0.5) of the way to the bottom.
+    stops: [0.8, 1.5],
+    begin: Alignment.center,
+    end: Alignment.bottomCenter,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +104,58 @@ class _MoodPageState extends State<MoodPage> {
                     'How You feel Today ?',
                     style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500, fontSize: 24),
-                  ),                  
+                  ),
+                  const Divider(
+                    color: Colors.transparent,
+                  ),
+                  //wrap
+                  ShaderMask(
+                    shaderCallback: (bounds) =>
+                        _maskingGradient.createShader(bounds),
+                    blendMode: BlendMode.dstIn,
+                    child: SizedBox(
+                      height: 400,
+                      child: SingleChildScrollView(
+                        child: Wrap(
+                          spacing: 19,
+                          runSpacing: 18,
+                          children:
+                              List<Widget>.generate(_choices.length, (index) {
+                            return ChoiceChip(
+                              label: Text(_choices[index],
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15)),
+                              selected: _defaultChoiceIndex == index,
+                              selectedColor:
+                                  const Color.fromRGBO(41, 50, 60, 1),
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  _defaultChoiceIndex = (selected ? index : 0);
+                                });
+                              },
+                              labelPadding: const EdgeInsets.only(
+                                  top: 32, bottom: 32, left: 21, right: 21),
+                              backgroundColor: Colors.white,
+                              labelStyle: TextStyle(
+                                  color: _defaultChoiceIndex == index
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontSize: 15),
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(16)),
+                                  side: BorderSide(
+                                      color: Colors.black, width: 1)),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Spacer(
+                    flex: 1,
+                  ),
                   Center(
                     child: FutureBuilder<WeatherClass>(
                       future: futureWeather,
@@ -101,7 +174,7 @@ class _MoodPageState extends State<MoodPage> {
                                         fontSize: 14),
                                   ),
                                   Text(
-                                    snapshot.data!.weather![0].main!.toString(),
+                                    _choices[_defaultChoiceIndex],
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12),
@@ -135,9 +208,9 @@ class _MoodPageState extends State<MoodPage> {
                       },
                     ),
                   ),
-                ]
-              )
-            )
-          );
+                  const Spacer(
+                    flex: 1,
+                  )
+                ])));
   }
 }
