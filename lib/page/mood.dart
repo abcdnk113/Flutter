@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
-import 'package:weather/components/widget.dart';
+import 'package:colorful_iconify_flutter/icons/twemoji.dart';
+import 'package:recase/recase.dart';
 import '../model/weather.dart';
 import '../network/request.dart';
 
@@ -18,19 +19,29 @@ class _MoodPageState extends State<MoodPage> {
   late List<String> _choices;
   late int _defaultChoiceIndex;
   late int index;
+  late List<Widget> _iconTypes;
   @override
   void initState() {
     super.initState();
     futureWeather = fetchWeather();
     _defaultChoiceIndex = 0;
     _choices = [
-      "very good 😊",
-      "okish 😐",
-      "very bad 🙁",
-      "angry 😠",
-      "just sad for no reason 😩",
-      "I'm Very very happy 😍",
-      "Verry verry Terrible"
+      "very good  ",
+      "okish  ",
+      "very bad  ",
+      "angry  ",
+      "just sad for no reason  ",
+      "I'm Very very happy  ",
+      "Verry verry Terrible  "
+    ];
+    _iconTypes = [
+      const Iconify(Twemoji.smiling_face_with_smiling_eyes), // widget
+      const Iconify(Twemoji.expressionless_face),
+      const Iconify(Twemoji.frowning_face),
+      const Iconify(Twemoji.angry_face),
+      const Iconify(Twemoji.confounded_face),
+      const Iconify(Twemoji.smiling_face_with_heart_eyes),
+      const Iconify(Twemoji.crying_face)
     ];
   }
 
@@ -122,10 +133,20 @@ class _MoodPageState extends State<MoodPage> {
                           children:
                               List<Widget>.generate(_choices.length, (index) {
                             return ChoiceChip(
-                              label: Text(_choices[index],
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15)),
+                              label: RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                      color: _defaultChoiceIndex == index
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: 15),
+                                  text: _choices[index],
+                                  children: [
+                                    WidgetSpan(child: _iconTypes[index])
+                                  ],
+                                ),
+                              ),
+                              //Text(_choices[index],   ),
                               selected: _defaultChoiceIndex == index,
                               selectedColor:
                                   const Color.fromRGBO(41, 50, 60, 1),
@@ -137,11 +158,6 @@ class _MoodPageState extends State<MoodPage> {
                               labelPadding: const EdgeInsets.only(
                                   top: 32, bottom: 32, left: 21, right: 21),
                               backgroundColor: Colors.white,
-                              labelStyle: TextStyle(
-                                  color: _defaultChoiceIndex == index
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontSize: 15),
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(16)),
@@ -174,7 +190,7 @@ class _MoodPageState extends State<MoodPage> {
                                         fontSize: 14),
                                   ),
                                   Text(
-                                    _choices[_defaultChoiceIndex],
+                                    _choices[_defaultChoiceIndex].titleCase,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12),
