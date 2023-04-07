@@ -98,7 +98,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       fontWeight: FontWeight.w400),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 15,
                 ),
                 Form(
                     key: _formKey,
@@ -147,7 +147,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                               }
                             }),
                         const SizedBox(
-                          height: 30,
+                          height: 10,
                         ),
                         TextFormField(
                           style: GoogleFonts.poppins(fontSize: 16),
@@ -228,7 +228,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 //--------or-------
                 SizedBox(
@@ -258,7 +258,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 26),
+                const SizedBox(height: 20),
                 Center(
                     child: Text(
                   'Sign in with',
@@ -333,7 +333,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   ],
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
                 Center(
                   child: SizedBox(
@@ -359,7 +359,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 70,
+                  height: 30,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

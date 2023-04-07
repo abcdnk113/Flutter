@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:colorful_iconify_flutter/icons/twemoji.dart';
 import 'package:recase/recase.dart';
@@ -102,7 +105,7 @@ class _MoodPageState extends State<MoodPage> {
                       ),
                       const Spacer(),
                       const Iconify(
-                        MaterialSymbols.dashboard_outline,
+                        Majesticons.dashboard_line,
                         size: 32,
                         color: Colors.black54,
                       )
@@ -169,64 +172,41 @@ class _MoodPageState extends State<MoodPage> {
                       ),
                     ),
                   ),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  Center(
-                    child: FutureBuilder<WeatherClass>(
-                      future: futureWeather,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Today's Weather",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
-                                  ),
-                                  Text(
-                                    _choices[_defaultChoiceIndex].titleCase,
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Address",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
-                                  ),
-                                  Text(
-                                    snapshot.data!.name.toString(),
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  )
-                                ],
-                              )
-                            ],
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        // By default, show a loading spinner.
-                        return const CircularProgressIndicator();
-                      },
-                    ),
-                  ),
-                  const Spacer(
-                    flex: 1,
-                  )
+                  const SizedBox(height: 20,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Today's Mood",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w400, fontSize: 14),
+                          ),
+                          Text(
+                            _choices[_defaultChoiceIndex].titleCase,
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          )
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Tomorrow's Mood",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w400, fontSize: 14),
+                          ),
+                          Text( _choices[Random().nextInt(7)].titleCase,                            
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                          )
+                        ],
+                      )
+                    ],
+                  ),                  
                 ])));
   }
 }

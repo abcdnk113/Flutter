@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:weather/model/weather.dart';
 import 'package:weather/network/request.dart';
@@ -67,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const Spacer(),
                 const Iconify(
-                  MaterialSymbols.dashboard_outline,
+                  Majesticons.dashboard_line,
                   size: 32,
                   color: Colors.black38,
                 ) // widget
@@ -135,8 +136,8 @@ class _HomePageState extends State<HomePage> {
                           child: Stack(alignment: Alignment.center, children: [
                             Image.asset(
                               'images/circle.png',
-                              width: 420,
-                              height: 420,
+                              width: 360 ,
+                              height: 360,
                               fit: BoxFit.cover,
                             ),
                             Column(
