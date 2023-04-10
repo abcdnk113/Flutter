@@ -5,6 +5,7 @@ import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:weather/model/weather.dart';
 import 'package:weather/network/request.dart';
+import 'package:weather/page/map.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -70,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                 const Iconify(
                   Majesticons.dashboard_line,
                   size: 32,
-                  color: Colors.black38,
+                  color: Colors.black,
                 ) // widget
               ],
             ),
@@ -183,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14),
                                 ),
-                                Text(
+                                Text( 
                                   snapshot.data!.weather![0].main!.toString(),
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.bold,

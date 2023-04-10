@@ -51,6 +51,9 @@ dependencies:
   json_annotation: ^4.8.0
   location_geocoder: ^1.0.5
   geocoding: ^2.1.0
+  stacked_firebase_auth: ^2.19.2
+  stacked: ^3.2.0
+  stacked_services: ^1.0.0
 
 dev_dependencies:
   flutter_test:

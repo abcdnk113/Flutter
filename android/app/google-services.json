@@ -7,14 +7,22 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:278876406126:android:2fd88e7b38f786c9bd017f",
+        "mobilesdk_app_id": "1:278876406126:android:60636fc9bbcb1a95bd017f",
         "android_client_info": {
           "package_name": "com.example.weather"
         }
       },
       "oauth_client": [
         {
-          "client_id": "278876406126-9bb0ipp3jhlutpa3hhn1n7lgns48lqvj.apps.googleusercontent.com",
+          "client_id": "278876406126-nssnb8iv3fbjhqoqejhfrna60lk0rd4m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.weather",
+            "certificate_hash": "d6e8852b40061bd01a57467c13a5828605d188c2"
+          }
+        },
+        {
+          "client_id": "278876406126-kl8p0vv5h7pm5fk8rudoj44kpns92jmu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +37,13 @@
             {
               "client_id": "278876406126-9bb0ipp3jhlutpa3hhn1n7lgns48lqvj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "278876406126-3i84u463b23p5gvk1p7k1sq9tbfsm74s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.weather"
+              }
             }
           ]
         }

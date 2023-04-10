@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:get/get.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+// import 'package:stacked/stacked.dart';
+// import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
+// import 'package:stacked_services/stacked_services.dart';
 
 class AuthServices {
 //Google sign in
@@ -17,12 +20,44 @@ class AuthServices {
   }
 }
 
-// class LoginController extends GetxController {
-//   var _google_sign_in = GoogleSignIn();
-//   var googleSignInAccount = Rx<GoogleSignInAccount?>(null);
 
-//   login() async {
-//     googleSignInAccount.value = await _google_sign_in.signIn();
+
+
+// abstract class AuthenticationViewModel extends FormViewModel{
+//   final NavigationService? navigationService = NavigationService();
+//   final FirebaseAuthenticationService _firebaseAuthenticationService = FirebaseAuthenticationService();
+
+//   late String successRoute;
+//   AuthenticationViewModel({required this.successRoute});
+
+//   @override
+//   void setFormStatus(){}
+
+//   Future saveData() async {
+//     final result = await runBusyFuture(runAuthentication());
+//     _handleAuthenticationResponse(result);    
 //   }
-// }
 
+//   Future<void> useGoogleAuthentication() async{
+//     final result = await _firebaseAuthenticationService.signInWithGoogle();
+//     _handleAuthenticationResponse(result);
+//   }
+
+//   Future<void> useAppleAuthentication() async{
+//     final result = await _firebaseAuthenticationService.signInWithApple(
+//       appleRedirectUri: "https://weather-c864b.firebaseapp.com/__/auth/handler", appleClientId: "");
+
+//     _handleAuthenticationResponse(result);
+//   }
+   
+  
+//   Future<FirebaseAuthenticationResult> runAuthentication();
+
+//   void _handleAuthenticationResponse(FirebaseAuthenticationResult authResult){
+//     if(!authResult.hasError){
+//       navigationService!.replaceWith(successRoute);
+//     }else {
+//       setValidationMessage(authResult.errorMessage);
+//     };
+//   }
+//   }

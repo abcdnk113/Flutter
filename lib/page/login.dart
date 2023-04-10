@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:weather/page/signuppage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +8,7 @@ import 'package:weather/services/auth_services.dart';
 import '../components/validate.dart';
 import '../components/widget.dart';
 import 'letspage.dart';
+//import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({super.key});
@@ -80,7 +83,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
-              children: [
+              children: [                          
                 Text(
                   'Login',
                   textAlign: TextAlign.left,
@@ -183,11 +186,11 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                   },
                                   child: !showPass
                                       ? const Icon(
-                                          Icons.visibility,
+                                          Icons.visibility_off,
                                           color: Colors.black,
                                         )
                                       : const Icon(
-                                          Icons.visibility_off,
+                                          Icons.visibility,
                                           color: Colors.black,
                                         )),
                               enabledBorder: OutlineInputBorder(

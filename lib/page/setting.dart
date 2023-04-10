@@ -8,10 +8,12 @@ import 'package:iconify_flutter/icons/ion.dart';
 import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:iconify_flutter/icons/mingcute.dart';
+import 'package:iconify_flutter/icons/ph.dart';
 import 'package:weather/components/widget.dart';
+import 'erpage.dart';
 
 enum Temprature { Celsius, Fahrenheit }
-
+ 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
@@ -36,14 +38,21 @@ class _SettingPageState extends State<SettingPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    children: const [
-                      Icon(
-                        Icons.arrow_back_ios,
-                        size: 30,
-                        color: Colors.black87,
-                      ),
-                      Spacer(),
-                      Iconify(
+                    children: [
+                      IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            size: 30,
+                            color: Colors.black87,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const ErrPage()));
+                          }),
+                      const Spacer(),
+                      const Iconify(
                         Majesticons.dashboard_line,
                         size: 32,
                         color: Colors.black87,
@@ -69,7 +78,7 @@ class _SettingPageState extends State<SettingPage> {
                     child: Column(
                       children: [
                         buildRow(Ci.user, "Account", Carbon.notification_off,
-                            Colors.transparent),
+                            Colors.white),
                         const SizedBox(
                           height: 20,
                         ),
@@ -77,7 +86,7 @@ class _SettingPageState extends State<SettingPage> {
                             MaterialSymbols.location_on_outline_rounded,
                             "Location",
                             Carbon.notification_off,
-                            Colors.transparent),
+                            Colors.white),
                         const SizedBox(
                           height: 20,
                         ),
@@ -123,7 +132,9 @@ class _SettingPageState extends State<SettingPage> {
                         //     });
                         //   },
                         // ),
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         MyRadioOption(
                           value: Temprature.Celsius,
                           text: "Celsius",
@@ -134,7 +145,9 @@ class _SettingPageState extends State<SettingPage> {
                             });
                           },
                         ),
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         MyRadioOption(
                           value: Temprature.Fahrenheit,
                           text: "Fahrenheit",
@@ -156,24 +169,27 @@ class _SettingPageState extends State<SettingPage> {
                     child: Column(
                       children: [
                         buildRow(Gg.notes, "terms and services",
-                            Carbon.notification_off, Colors.transparent),
+                            Carbon.notification_off, Colors.white),
                         const SizedBox(
                           height: 20,
                         ),
                         buildRow(Ion.ios_information_circle_outline, "About",
-                            Carbon.notification_off, Colors.transparent),
+                            Carbon.notification_off, Colors.white),
                         const SizedBox(
                           height: 20,
                         ),
-                        buildRow(Carbon.notification, "Notifications",
-                            Mingcute.bug_line, Colors.transparent),
+                        buildRow(Ph.bug_beetle_thin, "Report buggy buggys",
+                            Mingcute.bug_line, Colors.white),
                         const SizedBox(
                           height: 20,
                         ),
                       ],
                     ),
                   ),
-                ])));
+                ]
+              )
+            )
+          );
   }
 
   Row buildRow(String icon, tittle, String icon1, color) {

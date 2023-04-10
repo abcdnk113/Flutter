@@ -109,7 +109,7 @@ class _MapPageState extends State<MapPage> {
                 const Iconify(
                   Majesticons.dashboard_line,
                   size: 32,
-                  color: Colors.black38,
+                  color: Colors.black,
                 ) // widget
               ],
             ),
