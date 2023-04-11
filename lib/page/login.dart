@@ -1,71 +1,27 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:weather/page/signuppage.dart';
+import 'package:provider/provider.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:weather/services/auth_services.dart';
-import '../components/validate.dart';
-import '../components/widget.dart';
+import '../services/auth_services.dart';
 import 'letspage.dart';
 //import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-class MyLoginPage extends StatefulWidget {
+class MyLoginPage extends StatelessWidget {
   const MyLoginPage({super.key});
-
-  @override
-  State<MyLoginPage> createState() => _MyLoginPageState();
-}
-
-class _MyLoginPageState extends State<MyLoginPage> {
-  // text editing controllers
-  bool isEmailValidate = true;
-  bool showPass = false;
-  bool isPassValidate = true;
-
-  //final controller = Get.put(LoginController());
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  Future loGinbyGoogle() async {
-    await AuthServices().signInWithGoogle();
-    // ignore: use_build_context_synchronously
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const LetsPage()));
-  }
-
-  Future loGin() async {
-    if (isEmailValidate && isPassValidate) {
-      try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text);
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const LetsPage()));
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'user-not-found') {
-          showSnackBar(context, "User not found", Colors.red);
-        } else if (e.code == 'wrong-password') {
-          showSnackBar(context, "Wrong password", Colors.red);
-        }
-      }
-    } else {
-      showSnackBar(context, "Invalid mail or password", Colors.red);
-    }
-  }
-
-  // sign user in method
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    // text editing controllers
+    bool isEmailValidate = true;
+    bool showPass = false;
+    bool isPassValidate = true;
+
+    //final controller = Get.put(LoginController());
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+
+    final authService = Provider.of<AuthService>(context);
+
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -83,7 +39,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
-              children: [                          
+              children: [
                 Text(
                   'Login',
                   textAlign: TextAlign.left,
@@ -138,12 +94,6 @@ class _MyLoginPageState extends State<MyLoginPage> {
                                 hintText: "stephen@gmail.com",
                                 hintStyle: GoogleFonts.poppins(
                                     color: Colors.grey[500], fontSize: 16)),
-                            onChanged: (text) {
-                              setState(() {
-                                isEmailValidate =
-                                    validateEmail(emailController.text);
-                              });
-                            },
                             onTap: () {
                               if (emailController.text.isEmpty) {
                                 isEmailValidate = false;
@@ -158,32 +108,9 @@ class _MyLoginPageState extends State<MyLoginPage> {
                           keyboardType: TextInputType.visiblePassword,
                           textInputAction: TextInputAction.send,
                           obscureText: !showPass,
-                          onChanged: (text) {
-                            setState(() {
-                              if (passwordController.text.length < 6) {
-                                isPassValidate = false;
-                              } else {
-                                isPassValidate = true;
-                              }
-                            });
-                          },
-                          onTap: () {
-                            setState(() {
-                              if (passwordController.text.length < 6) {
-                                isPassValidate = false;
-                              } else {
-                                isPassValidate = true;
-                              }
-                            });
-                          },
                           decoration: InputDecoration(
                               hintText: "",
                               suffixIcon: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      showPass = !showPass;
-                                    });
-                                  },
                                   child: !showPass
                                       ? const Icon(
                                           Icons.visibility_off,
@@ -277,9 +204,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            loGinbyGoogle();
-                          },
+                          onTap: () {},
                           //() => AuthServices().signInWithGoogle(),//controller.login(),
                           child: Container(
                             width: 80,
@@ -307,7 +232,22 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () async {
+                            final credential =
+                                await SignInWithApple.getAppleIDCredential(
+                              scopes: [
+                                AppleIDAuthorizationScopes.email,
+                                AppleIDAuthorizationScopes.fullName,
+                              ],
+                            );
+                            // ignore: use_build_context_synchronously
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LetsPage()));
+                            // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+                            // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                          },
                           child: Container(
                             width: 80,
                             height: 80,
@@ -351,7 +291,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)))),
                       onPressed: () {
-                        loGin();
+                        authService.signInWithEmailAndPassword(emailController.text, passwordController.text);
                       },
                       child: Text(
                         'Login',
@@ -375,10 +315,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
                               decoration: TextDecoration.underline,
                               color: const Color.fromRGBO(12, 24, 35, 1))),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SignUpPage()));
+                        Navigator.pushNamed(
+                            context,'/register');
                       },
                     ),
                     const Icon(
