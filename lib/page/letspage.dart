@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_gradient/image_gradient.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather/bottomnavigation.dart';
+import 'package:weather/page/login.dart';
 
 
 class LetsPage extends StatelessWidget {
@@ -80,7 +81,9 @@ class LetsPage extends StatelessWidget {
                 }, child: Text("Let's Check",style: GoogleFonts.poppins(color: Colors.white,fontSize: 20,fontWeight: FontWeight.w400),),              
               ),
             ),
+            ElevatedButton(onPressed:(){ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> MyLoginPage()));}, child: Text("Back")),
             const Spacer(flex: 1,),
+
           ]
           ),
         ),       

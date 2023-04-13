@@ -2,26 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weather/provider/provider.dart';
 import '../services/auth_services.dart';
 import 'letspage.dart';
-//import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+// ignore: must_be_immutable
 class MyLoginPage extends StatelessWidget {
-  const MyLoginPage({super.key});
+  MyLoginPage({super.key});
+
+  bool isEmailValidate = true;
+  bool isPassValidate = true;
+  final emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
+  Widget consumerDemo() {
+    return Consumer<MyAppState>(
+      builder: (context, state, child) {
+        return visibilityButton(state);
+      },
+    );
+  }
+
+  Widget visibilityButton(MyAppState state) {
+    return InkWell(
+      onTap: () => {state.changeVisiblity()},
+      child: !state.showPass
+          ? const Icon(
+              Icons.visibility_off,
+              color: Colors.black,
+            )
+          : const Icon(
+              Icons.visibility,
+              color: Colors.black,
+            ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // text editing controllers
-    bool isEmailValidate = true;
-    bool showPass = false;
-    bool isPassValidate = true;
-
-    //final controller = Get.put(LoginController());
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final _formKey = GlobalKey<FormState>();
-
     final authService = Provider.of<AuthService>(context);
+    final myAppState = Provider.of<MyAppState>(context);
 
+    
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -60,66 +83,61 @@ class MyLoginPage extends StatelessWidget {
                   height: 15,
                 ),
                 Form(
-                    key: _formKey,
+                    key: formKey,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFormField(
-                            style: GoogleFonts.poppins(fontSize: 16),
-                            controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(18)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade400),
-                                    borderRadius: BorderRadius.circular(18)),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade400,
-                                  ),
-                                  borderRadius: BorderRadius.circular(15.0),
+                          style: GoogleFonts.poppins(fontSize: 16),
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: Colors.white),
+                                  borderRadius: BorderRadius.circular(18)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.grey.shade400),
+                                  borderRadius: BorderRadius.circular(18)),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade400,
                                 ),
-                                errorText: !isEmailValidate
-                                    ? "Please enter your email"
-                                    : null,
-                                fillColor: Colors.grey.shade200,
-                                filled: true,
-                                hintText: "stephen@gmail.com",
-                                hintStyle: GoogleFonts.poppins(
-                                    color: Colors.grey[500], fontSize: 16)),
-                            onTap: () {
-                              if (emailController.text.isEmpty) {
-                                isEmailValidate = false;
-                              }
-                            }),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              // errorText: !isEmailValidate
+                              //     ? "Please enter your email"
+                              //     : null,
+                              fillColor: Colors.grey.shade200,
+                              filled: true,
+                              hintText: "stephen@gmail.com",
+                              hintStyle: GoogleFonts.poppins(
+                                  color: Colors.grey[500], fontSize: 16)),
+                          onTap: () {
+                            if (emailController.text.isEmpty) {
+                              isEmailValidate = false;
+                            }
+                          }
+                        ),
                         const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
                           style: GoogleFonts.poppins(fontSize: 16),
-                          controller: passwordController,
+                          controller: myAppState.passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           textInputAction: TextInputAction.send,
-                          obscureText: !showPass,
+                          obscureText: !myAppState.showPass,
+                          // onChanged: (value) => {
+                          //   myAppState.passwordController.text = value
+                          // },
                           decoration: InputDecoration(
                               hintText: "",
-                              suffixIcon: InkWell(
-                                  child: !showPass
-                                      ? const Icon(
-                                          Icons.visibility_off,
-                                          color: Colors.black,
-                                        )
-                                      : const Icon(
-                                          Icons.visibility,
-                                          color: Colors.black,
-                                        )),
+                              suffixIcon: consumerDemo(),
                               enabledBorder: OutlineInputBorder(
                                   borderSide:
                                       const BorderSide(color: Colors.white),
@@ -135,11 +153,10 @@ class MyLoginPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
                               fillColor: Colors.grey.shade200,
-                              filled: true,
-                              //hintText: "Password",
-                              errorText: !isPassValidate
-                                  ? "Please enter your password!"
-                                  : null,
+                              filled: true,                             
+                              // errorText: !isPassValidate
+                              //     ? "Please enter your password!"
+                              //     : null,
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.grey[500],
                                 fontSize: 16,
@@ -204,8 +221,7 @@ class MyLoginPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
-                          onTap: () {},
-                          //() => AuthServices().signInWithGoogle(),//controller.login(),
+                          onTap: () => AuthService().signInWithGoogle(),
                           child: Container(
                             width: 80,
                             height: 80,
@@ -291,7 +307,11 @@ class MyLoginPage extends StatelessWidget {
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16)))),
                       onPressed: () {
-                        authService.signInWithEmailAndPassword(emailController.text, passwordController.text);
+                        //login();
+                        authService.signInWithEmailAndPassword(
+                            emailController.text,
+                            myAppState.passwordController.text);
+                        Navigator.pushNamed(context, '/home');
                       },
                       child: Text(
                         'Login',
@@ -315,8 +335,7 @@ class MyLoginPage extends StatelessWidget {
                               decoration: TextDecoration.underline,
                               color: const Color.fromRGBO(12, 24, 35, 1))),
                       onPressed: () {
-                        Navigator.pushNamed(
-                            context,'/register');
+                        Navigator.pushNamed(context, '/register');
                       },
                     ),
                     const Icon(
