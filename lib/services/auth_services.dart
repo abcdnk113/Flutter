@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import '../model/user_model.dart';
-// import 'package:stacked/stacked.dart';
-// import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
-// import 'package:stacked_services/stacked_services.dart';
+
 
 // provider auth email, password
 class AuthService {
@@ -39,8 +37,11 @@ class AuthService {
   }
 
   Future<void> signOut() async {
-    return await _firebaseAuth.signOut();
-  }
+    await GoogleSignIn().disconnect();
+    await _firebaseAuth.signOut();
+  }  
+}
+class AuthServices {
   signInWithGoogle() async {
     //begin interface sign in process
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
@@ -53,5 +54,6 @@ class AuthService {
     return await auth.FirebaseAuth.instance.signInWithCredential(credential);
   }
 }
+
 
 

@@ -5,68 +5,62 @@ import 'package:weather/provider/provider.dart';
 import 'package:weather/services/auth_services.dart';
 
 // ignore: must_be_immutable
-class SignUpPage extends StatelessWidget {
-  SignUpPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController emailController = TextEditingController();
 
   bool showPass = false;
+
   bool showRePass = false;
+
   bool isEmailValidate = true;
+
   bool isPassValidate = true;
+
   bool isRePassValidate = true;
 
   final formKey = GlobalKey<FormState>();
+  
+  late SignupState? signupState;
 
-  Widget consumerPass() {
-    return Consumer<SignupState>(
-      builder: (context, state, child) {
-        return visibilityButton(state);
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      layoutComplete();
+    });
   }
 
-  Widget visibilityButton(SignupState state) {
-    return InkWell(
-      onTap: () => {state.changePass()},
-      child: !state.showPass
-          ? const Icon(
-              Icons.visibility_off,
-              color: Colors.black,
-            )
-          : const Icon(
-              Icons.visibility,
-              color: Colors.black,
-            ),
-    );
+  void layoutComplete() {
+    print("onActivityCreated 1/ viewDidLoad 1/ layoutComplete 1");
+    signupState?.passwordController.clear();
+    signupState?.repassController.clear();
   }
 
-  Widget consumerRePass() {
-    return Consumer<SignupState>(
-      builder: (context, state, child) {
-        return visibilityButtonRePass(state);
-      },
-    );
+  viewWillAppear() {
+    print("onResume 1/ viewWillAppear 1/ onFocusGained 1");
+    
   }
 
-  Widget visibilityButtonRePass(SignupState state) {
-    return InkWell(
-      onTap: () => {state.changeRePass()},
-      child: !state.showPass
-          ? const Icon(
-              Icons.visibility_off,
-              color: Colors.black,
-            )
-          : const Icon(
-              Icons.visibility,
-              color: Colors.black,
-            ),
-    );
+  void viewWillDisappear() {
+    print("onPause 1/ viewWillDisappear 1/ onFocusLost 1");    
+  }
+
+  @override
+  void dispose() {
+    print("onDestroy 1/ viewDidUnload 1/ dispose 1");
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final signupState = Provider.of<SignupState>(context,listen: false);
+    signupState = Provider.of<SignupState>(context, listen: false);
     final authService = Provider.of<AuthService>(context);
 
     double w = MediaQuery.of(context).size.width;
@@ -114,55 +108,12 @@ class SignUpPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFormField(
-                            style: GoogleFonts.poppins(fontSize: 16),
-                            controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            textInputAction: TextInputAction.next,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(18)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.grey.shade400),
-                                    borderRadius: BorderRadius.circular(18)),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade400,
-                                  ),
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                // errorText: !isEmailValidate
-                                //     ? "Please enter your email"
-                                //     : null,
-                                fillColor: Colors.grey.shade200,
-                                filled: true,
-                                hintText: "Email",
-                                hintStyle: GoogleFonts.poppins(
-                                    color: Colors.grey[500], fontSize: 16)),
-                            // onTap: () {
-                            //   if (emailController.text.isEmpty) {
-                            //     isEmailValidate = false;
-                            //   }
-                            // }
-                            ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        TextFormField(
                           style: GoogleFonts.poppins(fontSize: 16),
-                          controller: signupState.passwordController,
-                          keyboardType: TextInputType.visiblePassword,
-                          textInputAction: TextInputAction.send,
-                          obscureText: !signupState.showPass,
-                          // onChanged: (value) => {
-                          //   myAppState.passwordController.text = value
-                          // },
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          obscureText: false,
                           decoration: InputDecoration(
-                              hintText: "",
-                              suffixIcon: consumerPass(),
                               enabledBorder: OutlineInputBorder(
                                   borderSide:
                                       const BorderSide(color: Colors.white),
@@ -177,50 +128,125 @@ class SignUpPage extends StatelessWidget {
                                 ),
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
-                              fillColor: Colors.grey.shade200,
-                              filled: true,                             
-                              // errorText: !isPassValidate
-                              //     ? "Please enter your password!"
+                              // errorText: !isEmailValidate
+                              //     ? "Please enter your email"
                               //     : null,
+                              fillColor: Colors.grey.shade200,
+                              filled: true,
+                              hintText: "Email",
                               hintStyle: GoogleFonts.poppins(
-                                color: Colors.grey[500],
-                                fontSize: 16,
-                              )),
+                                  color: Colors.grey[500], fontSize: 16)),
+                          // onTap: () {
+                          //   if (emailController.text.isEmpty) {
+                          //     isEmailValidate = false;
+                          //   }
+                          // }
                         ),
                         const SizedBox(
                           height: 15,
                         ),
-                        // TextFormField(
-                        //   style: GoogleFonts.poppins(fontSize: 16),
-                        //   controller: signupState.repassController,
-                        //   keyboardType: TextInputType.visiblePassword,
-                        //   textInputAction: TextInputAction.send,
-                        //   obscureText: !signupState.showRePass,
-                        //   decoration: InputDecoration(
-                        //       // errorText: !isRePassValidate
-                        //       //     ? "Please enter your confirm password!"
-                        //       //     : null,
-                        //       suffixIcon: consumerRePass(),
-                        //       enabledBorder: OutlineInputBorder(
-                        //           borderSide:
-                        //               const BorderSide(color: Colors.white),
-                        //           borderRadius: BorderRadius.circular(18)),
-                        //       focusedBorder: OutlineInputBorder(
-                        //           borderSide:
-                        //               BorderSide(color: Colors.grey.shade400),
-                        //           borderRadius: BorderRadius.circular(18)),
-                        //       border: OutlineInputBorder(
-                        //         borderSide: BorderSide(
-                        //           color: Colors.grey.shade400,
-                        //         ),
-                        //         borderRadius: BorderRadius.circular(15.0),
-                        //       ),
-                        //       fillColor: Colors.grey.shade200,
-                        //       filled: true,
-                        //       hintText: "Confirm Password",
-                        //       hintStyle: GoogleFonts.poppins(
-                        //           color: Colors.grey[500], fontSize: 16)),
-                        // )
+                        Consumer<SignupState>(
+                            builder: (context, signupstate, child) {
+                          return TextFormField(
+                            style: GoogleFonts.poppins(fontSize: 16),
+                            controller: signupstate.passwordController,
+                            keyboardType: TextInputType.visiblePassword,
+                            textInputAction: TextInputAction.send,
+                            obscureText: !signupstate.showPass,
+                            // onChanged: (value) => {
+                            //   signupstate.passwordController.text = value
+                            // },
+                            decoration: InputDecoration(
+                                hintText: "Password",
+                                suffixIcon: InkWell(
+                                  onTap: () => {
+                                    signupstate.changePass(),
+                                  },
+                                  child: !signupstate.showPass
+                                      ? const Icon(
+                                          Icons.visibility_off,
+                                          color: Colors.black,
+                                        )
+                                      : const Icon(
+                                          Icons.visibility,
+                                          color: Colors.black,
+                                        ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(18)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey.shade400),
+                                    borderRadius: BorderRadius.circular(18)),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                  ),
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                fillColor: Colors.grey.shade200,
+                                filled: true,
+                                // errorText: !isPassValidate
+                                //     ? "Please enter your password!"
+                                //     : null,
+                                hintStyle: GoogleFonts.poppins(
+                                  color: Colors.grey[500],
+                                  fontSize: 16,
+                                )),
+                          );
+                        }),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Consumer<SignupState>(
+                            builder: (context, signupstate, child) {
+                          return TextFormField(
+                            style: GoogleFonts.poppins(fontSize: 16),
+                            controller: signupState?.repassController,
+                            keyboardType: TextInputType.visiblePassword,
+                            textInputAction: TextInputAction.send,
+                            obscureText: !signupState!.showRePass,
+                            decoration: InputDecoration(
+                                // errorText: !isRePassValidate
+                                //     ? "Please enter your confirm password!"
+                                //     : null,
+                                suffixIcon: InkWell(
+                                  onTap: () => {
+                                    signupstate.changeRePass(),
+                                  },
+                                  child: !signupstate.showRePass
+                                      ? const Icon(
+                                          Icons.visibility_off,
+                                          color: Colors.black,
+                                        )
+                                      : const Icon(
+                                          Icons.visibility,
+                                          color: Colors.black,
+                                        ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(18)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.grey.shade400),
+                                    borderRadius: BorderRadius.circular(18),),
+                                border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                  ),
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                fillColor: Colors.grey.shade200,
+                                filled: true,
+                                hintText: "Confirm Password",
+                                hintStyle: GoogleFonts.poppins(
+                                    color: Colors.grey[500], fontSize: 16),),
+                          );
+                        })
                       ],
                     )),
                 const SizedBox(
@@ -259,8 +285,8 @@ class SignUpPage extends StatelessWidget {
                     child: Text(
                   'Sign up with',
                   style: GoogleFonts.poppins(
-                      fontSize: 28, color: const Color.fromRGBO(12, 24, 35, 1)),
-                )),
+                      fontSize: 28, color: const Color.fromRGBO(12, 24, 35, 1),),
+                ),),
                 const SizedBox(height: 35),
                 Row(
                   mainAxisSize: MainAxisSize.max,
@@ -270,13 +296,13 @@ class SignUpPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () => AuthServices().signInWithGoogle(),
                           child: Container(
                             width: 80,
                             height: 80,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(41),
-                                color: const Color.fromRGBO(12, 24, 35, 1)),
+                                color: const Color.fromRGBO(12, 24, 35, 1),),
                             padding: const EdgeInsets.all(25),
                             child: Image.asset(
                               'images/google.png',
@@ -290,7 +316,7 @@ class SignUpPage extends StatelessWidget {
                         Text('Google',
                             style: GoogleFonts.poppins(
                                 fontSize: 16,
-                                color: const Color.fromRGBO(12, 24, 35, 1)))
+                                color: const Color.fromRGBO(12, 24, 35, 1),),),
                       ],
                     ),
                     Column(
@@ -303,7 +329,7 @@ class SignUpPage extends StatelessWidget {
                             height: 80,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(41),
-                                color: const Color.fromRGBO(12, 24, 35, 1)),
+                                color: const Color.fromRGBO(12, 24, 35, 1),),
                             padding: const EdgeInsets.all(25),
                             child: Image.asset(
                               'images/apple.png',
@@ -319,7 +345,7 @@ class SignUpPage extends StatelessWidget {
                           'Apple',
                           style: GoogleFonts.poppins(
                               fontSize: 16,
-                              color: const Color.fromRGBO(12, 24, 35, 1)),
+                              color: const Color.fromRGBO(12, 24, 35, 1),),
                         )
                       ],
                     ),
@@ -339,11 +365,11 @@ class SignUpPage extends StatelessWidget {
                                   Color.fromRGBO(12, 24, 35, 1)),
                           shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)))),
+                                  borderRadius: BorderRadius.circular(16),),),),
                       onPressed: () async {
                         await authService.createUserWithEmailAndPassword(
                             emailController.text,
-                            signupState.passwordController.text);
+                            signupState?.passwordController.text ?? "");
                         // ignore: use_build_context_synchronously
                         Navigator.pushReplacementNamed(context, "/login");
                       },
@@ -355,7 +381,7 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              ]),
+              ],),
         ),
       ),
     );

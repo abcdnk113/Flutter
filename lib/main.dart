@@ -6,7 +6,6 @@ import 'package:weather/page/login.dart';
 import 'package:weather/page/signuppage.dart';
 import 'package:weather/provider/provider.dart';
 import 'package:weather/services/auth_services.dart';
-import 'package:weather/wrapper.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,7 +16,7 @@ void main() async {
   runApp(MultiProvider(
       providers: [
         Provider<AuthService>(create: (_) => AuthService(),),
-        ChangeNotifierProvider<MyAppState>(create: (_)=>MyAppState()),
+        ChangeNotifierProvider<LoginState>(create: (_)=>LoginState()),
         ChangeNotifierProvider<SignupState>(create: (_)=> SignupState())
       ],
       child:const MainApp()),);

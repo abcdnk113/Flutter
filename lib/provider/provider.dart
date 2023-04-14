@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 //   }
 // }
 
-class MyAppState extends ChangeNotifier {
+class LoginState extends ChangeNotifier {
   bool showPass = false;
   String _string = "";
   String get string => _string;
