@@ -5,7 +5,9 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:colorful_iconify_flutter/icons/twemoji.dart';
+import 'package:provider/provider.dart';
 import 'package:recase/recase.dart';
+import 'package:weather/provider/provider.dart';
 import '../model/weather.dart';
 import '../network/request.dart';
 
@@ -22,6 +24,7 @@ class _MoodPageState extends State<MoodPage> {
   late int _defaultChoiceIndex;
   late int index;
   late List<Widget> _iconTypes;
+  late MoodState moodState1 = Provider.of<MoodState>(context);
   @override
   void initState() {
     super.initState();
@@ -60,6 +63,9 @@ class _MoodPageState extends State<MoodPage> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+
+    
+
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(vertical: w * .12, horizontal: h * .04),
@@ -121,51 +127,65 @@ class _MoodPageState extends State<MoodPage> {
               color: Colors.transparent,
             ),
             //wrap
-            ShaderMask(
-              shaderCallback: (bounds) => _maskingGradient.createShader(bounds),
-              blendMode: BlendMode.dstIn,
-              child: SizedBox(
-                height: 400,
-                child: SingleChildScrollView(
-                  child: Wrap(
-                    spacing: 19,
-                    runSpacing: 18,
-                    children: List<Widget>.generate(
-                      _choices.length,
-                      (index) {
-                        return ChoiceChip(
-                          label: RichText(
-                            text: TextSpan(
-                              style: TextStyle(
-                                  color: _defaultChoiceIndex == index
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontSize: 15),
-                              text: _choices[index],
-                              children: [WidgetSpan(child: _iconTypes[index])],
-                            ),
-                          ),
-                          //Text(_choices[index],   ),
-                          selected: _defaultChoiceIndex == index,
-                          selectedColor: const Color.fromRGBO(41, 50, 60, 1),
-                          onSelected: (bool selected) {
-                            setState(() {
-                              _defaultChoiceIndex = (selected ? index : 0);
-                            });
+            Consumer<MoodState>(
+              builder: ( context, moodState, child) {
+                return ShaderMask(
+                  shaderCallback: (bounds) =>
+                      _maskingGradient.createShader(bounds),
+                  blendMode: BlendMode.dstIn,
+                  child: SizedBox(
+                    height: 400,
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        spacing: 19,
+                        runSpacing: 18,
+                        children: List<Widget>.generate(
+                          moodState.choices.length,(index)                           
+                          { 
+                            return ChoiceChip(
+                              label: RichText(
+                                text: TextSpan(
+                                  style: TextStyle(
+                                      color: moodState.choiceIndex == index
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontSize: 15),
+                                  text: moodState.choices[index],
+                                  children: [
+                                    WidgetSpan(child: moodState.iconTypes[index])
+                                  ],
+                                ),
+                              ),
+                              //Text(_choices[index],   ),
+                              selected: moodState.choiceIndex == index,
+                              selectedColor:
+                                  const Color.fromRGBO(41, 50, 60, 1),
+                              onSelected: (bool selected) {
+                                // setState(
+                                //   () {
+                                //     _defaultChoiceIndex =
+                                //         (selected ? index : 0);
+                                //   },
+                                // );
+                                moodState.chageSelected();
+                              },
+                              labelPadding: const EdgeInsets.only(
+                                  top: 32, bottom: 32, left: 21, right: 21),
+                              backgroundColor: Colors.white,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(16),
+                                ),
+                                side: BorderSide(color: Colors.black, width: 1),
+                              ),
+                            );
                           },
-                          labelPadding: const EdgeInsets.only(
-                              top: 32, bottom: 32, left: 21, right: 21),
-                          backgroundColor: Colors.white,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16)),
-                              side: BorderSide(color: Colors.black, width: 1)),
-                        );
-                      },
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
             const SizedBox(
               height: 20,
@@ -182,7 +202,7 @@ class _MoodPageState extends State<MoodPage> {
                           fontWeight: FontWeight.w400, fontSize: 14),
                     ),
                     Text(
-                      _choices[_defaultChoiceIndex].titleCase,
+                      moodState1.choices[_defaultChoiceIndex],
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.bold, fontSize: 12),
                     )

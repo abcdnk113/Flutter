@@ -16,10 +16,11 @@ void main() async {
   runApp(MultiProvider(
       providers: [
         Provider<AuthService>(create: (_) => AuthService(),),
-        ChangeNotifierProvider<LoginState>(create: (_)=>LoginState()),
-        ChangeNotifierProvider<SignupState>(create: (_)=> SignupState())
+        ChangeNotifierProvider<LoginState>(create: (_) => LoginState()),
+        ChangeNotifierProvider<SignupState>(create: (_) => SignupState()),
+        ChangeNotifierProvider<MoodState>(create: (_) => MoodState() )
       ],
-      child:const MainApp()),);
+      child: const MainApp()),);
 }
 
 class MainApp extends StatelessWidget {
@@ -31,9 +32,9 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          '/':(context) => MyLoginPage(),
-          '/login':(context) => MyLoginPage(),
-          '/register':(context) => SignUpPage(),
+          '/':(context) => const MyLoginPage(),
+          '/login':(context) => const MyLoginPage(),
+          '/register':(context) => const SignUpPage(),
           '/home':(context) => const LetsPage(),
         },
       )

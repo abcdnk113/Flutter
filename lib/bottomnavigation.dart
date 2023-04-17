@@ -28,40 +28,7 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[index],
-      bottomNavigationBar: buildMyNavBar(context),
-      // bottomNavigationBar: NavigationBarTheme(
-      //   data: NavigationBarThemeData(
-      //     indicatorColor: Colors.black,
-      //     indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      //   ),
-      //   child: NavigationBar(
-      //     labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-      //     height: 60,
-      //     backgroundColor: Colors.blue,
-      //     selectedIndex: index,
-      //     onDestinationSelected: (index) => setState(()=> this.index = index),
-      //     animationDuration: const Duration(seconds: 3),
-      //     destinations: const[
-      //       NavigationDestination(
-      //         icon: Iconify(MaterialSymbols.sunny_outline_rounded,),
-      //         selectedIcon: Iconify(MaterialSymbols.sunny_outline_rounded,color: Colors.white,),
-      //         label: 'Home',),
-      //       NavigationDestination(
-      //         icon: Iconify(MaterialSymbols.cloud_outline) ,
-      //         selectedIcon: Iconify(MaterialSymbols.cloud_outline,color: Colors.white,) ,
-      //         label: 'Mood',),
-      //       NavigationDestination(
-      //         icon: Iconify(MaterialSymbols.location_on_outline_rounded),
-      //         label: 'Maps',
-      //         selectedIcon: Iconify(MaterialSymbols.location_on_outline_rounded,color: Colors.white,),
-      //         ),
-      //       NavigationDestination(
-      //         icon: Iconify(Ph.lightning_bold) ,
-      //         label: 'Setting',
-      //         selectedIcon: Iconify(Ph.lightning_bold,color: Colors.white,))
-      //     ]
-      //   ),
-      // ),
+      bottomNavigationBar: buildMyNavBar(context),     
     );
   }
 

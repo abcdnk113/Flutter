@@ -112,20 +112,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ],
-            ),
-            // LayoutBuilder(
-            //   builder: (context, constraints) => Stack(
-            //     children: [
-            //       Image.asset('images/weather.png',width: 400,height: 400,fit: BoxFit.cover,),
-            //       Positioned(
-            //         left: 100,
-            //         top: 155,
-            //         child: Text('25°',style: GoogleFonts.poppins(fontWeight: FontWeight.w400,fontSize: 44,color: Colors.white),)
-            //       ),
-            //     ],
-            //   )
-            // ),
-
+            ),          
             Center(
               child: FutureBuilder<WeatherClass>(
                 future: futureWeather,

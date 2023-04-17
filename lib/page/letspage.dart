@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_gradient/image_gradient.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather/bottomnavigation.dart';
@@ -14,7 +15,9 @@ class LetsPage extends StatefulWidget {
 
 class _LetsPageState extends State<LetsPage> {
   Future signout() async {
-    await AuthService().signOut();
+    await GoogleSignIn().disconnect().whenComplete(() async {
+      await AuthService().signOut();
+    });
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
       context,
@@ -23,6 +26,7 @@ class _LetsPageState extends State<LetsPage> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -117,7 +121,11 @@ class _LetsPageState extends State<LetsPage> {
                   ),
                 ),
               ),
-              ElevatedButton(onPressed: () {signout();}, child: Text("Back")),
+              ElevatedButton(
+                  onPressed: () {
+                    signout();
+                  },
+                  child: Text("Back")),
               const Spacer(
                 flex: 1,
               ),

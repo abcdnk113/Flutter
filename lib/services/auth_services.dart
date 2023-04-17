@@ -37,16 +37,20 @@ class AuthService {
   }
 
   Future<void> signOut() async {
-    await GoogleSignIn().disconnect();
     await _firebaseAuth.signOut();
+    
+    
   }  
 }
 class AuthServices {
   signInWithGoogle() async {
     //begin interface sign in process
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn().catchError((onError) => print(onError));
+    if (gUser == null){
+      return null;
+    }
     //obtain auth details from request
-    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+    final GoogleSignInAuthentication gAuth = await gUser.authentication;
     //create a new credential for user
     final credential = auth.GoogleAuthProvider.credential(
         accessToken: gAuth.accessToken, idToken: gAuth.idToken);
