@@ -5,7 +5,6 @@ import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:weather/model/weather.dart';
 import 'package:weather/network/request.dart';
-import 'package:weather/page/map.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -44,16 +43,16 @@ class _HomePageState extends State<HomePage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Britney Glayers',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w400, fontSize: 12)),
+                    Text(
+                      'Britney Glayers',
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w400, fontSize: 12),
+                    ),
                     Row(
                       children: [
                         Text(
@@ -98,9 +97,7 @@ class _HomePageState extends State<HomePage> {
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w500, fontSize: 24),
                         ),
-                        const SizedBox(
-                          width: 20,
-                        ),
+                        const SizedBox(width: 20),
                         Image.asset(
                           'images/bike.png',
                           width: 24,
@@ -112,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ],
-            ),          
+            ),
             Center(
               child: FutureBuilder<WeatherClass>(
                 future: futureWeather,
@@ -121,44 +118,45 @@ class _HomePageState extends State<HomePage> {
                     return Column(
                       children: [
                         Center(
-                          child: Stack(alignment: Alignment.center, children: [
-                            Image.asset(
-                              'images/circle.png',
-                              width: 360 ,
-                              height: 360,
-                              fit: BoxFit.cover,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "${snapshot.data?.main?.temp?.round().toString()}°C",
-                                  style: GoogleFonts.poppins(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 44,
-                                      color: Colors.white),
-                                ),
-                                Image.network(
-                                  "https://openweathermap.org/img/w/${snapshot.data?.weather![0].icon}.png",
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                                Text(
-                                  snapshot.data!.weather![0].description!,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          ]),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Image.asset(
+                                'images/circle.png',
+                                width: 360,
+                                height: 360,
+                                fit: BoxFit.cover,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "${snapshot.data?.main?.temp?.round().toString()}°C",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 44,
+                                        color: Colors.white),
+                                  ),
+                                  Image.network(
+                                    "https://openweathermap.org/img/w/${snapshot.data?.weather![0].icon}.png",
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Text(
+                                    snapshot.data!.weather![0].description!,
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(
-                          height: 39,
-                        ),
+                        const SizedBox(height: 39),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -171,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.w400,
                                       fontSize: 14),
                                 ),
-                                Text( 
+                                Text(
                                   snapshot.data!.weather![0].main!.toString(),
                                   style: GoogleFonts.poppins(
                                       fontWeight: FontWeight.bold,

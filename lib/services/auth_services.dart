@@ -45,7 +45,7 @@ class AuthService {
 class AuthServices {
   signInWithGoogle() async {
     //begin interface sign in process
-    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn().catchError((onError) => print(onError));
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
     if (gUser == null){
       return null;
     }

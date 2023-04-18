@@ -6,7 +6,8 @@ import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:google_maps_webservice/places.dart';
+// ignore: depend_on_referenced_packages
+import 'package:google_maps_webservice/places.dart' ;
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -16,9 +17,8 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  late LatLng destination;
-  late LatLng source;
 
+  // ignore: prefer_collection_literals
   Set<Marker> markers = Set<Marker>();
 
   String? _mapStyle;
@@ -47,6 +47,7 @@ class _MapPageState extends State<MapPage> {
       context: context,
       mode: Mode.overlay,
       apiKey: kGoogleApiKey,
+      // ignore: unnecessary_new
       components: [new Component(Component.country, "us")],
       types: ["(cities)"],
       hint: "Search City",

@@ -21,15 +21,15 @@ class MoodPage extends StatefulWidget {
 class _MoodPageState extends State<MoodPage> {
   late Future<WeatherClass> futureWeather;
   late List<String> _choices;
-  late int _defaultChoiceIndex;
+  late int _choiceIndex;
   late int index;
   late List<Widget> _iconTypes;
-  late MoodState moodState1 = Provider.of<MoodState>(context);
+  late MoodState moodState = Provider.of<MoodState>(context);
   @override
   void initState() {
     super.initState();
     futureWeather = fetchWeather();
-    _defaultChoiceIndex = 0;
+    _choiceIndex = 0;
     _choices = [
       "very good  ",
       "okish  ",
@@ -127,65 +127,55 @@ class _MoodPageState extends State<MoodPage> {
               color: Colors.transparent,
             ),
             //wrap
-            Consumer<MoodState>(
-              builder: ( context, moodState, child) {
-                return ShaderMask(
-                  shaderCallback: (bounds) =>
-                      _maskingGradient.createShader(bounds),
-                  blendMode: BlendMode.dstIn,
-                  child: SizedBox(
-                    height: 400,
-                    child: SingleChildScrollView(
-                      child: Wrap(
-                        spacing: 19,
-                        runSpacing: 18,
-                        children: List<Widget>.generate(
-                          moodState.choices.length,(index)                           
-                          { 
-                            return ChoiceChip(
-                              label: RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                      color: moodState.choiceIndex == index
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontSize: 15),
-                                  text: moodState.choices[index],
-                                  children: [
-                                    WidgetSpan(child: moodState.iconTypes[index])
-                                  ],
-                                ),
-                              ),
-                              //Text(_choices[index],   ),
-                              selected: moodState.choiceIndex == index,
-                              selectedColor:
-                                  const Color.fromRGBO(41, 50, 60, 1),
-                              onSelected: (bool selected) {
-                                // setState(
-                                //   () {
-                                //     _defaultChoiceIndex =
-                                //         (selected ? index : 0);
-                                //   },
-                                // );
-                                moodState.chageSelected();
-                              },
-                              labelPadding: const EdgeInsets.only(
-                                  top: 32, bottom: 32, left: 21, right: 21),
-                              backgroundColor: Colors.white,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(16),
-                                ),
-                                side: BorderSide(color: Colors.black, width: 1),
-                              ),
-                            );
+            ShaderMask(
+              shaderCallback: (bounds) =>
+                  _maskingGradient.createShader(bounds),
+              blendMode: BlendMode.dstIn,
+              child: SizedBox(
+                height: 400,
+                child: SingleChildScrollView(
+                  child: Wrap(
+                    spacing: 19,
+                    runSpacing: 18,
+                    children: List<Widget>.generate(
+                      _choices.length,(index)                           
+                      { 
+                        return ChoiceChip(
+                          label: RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                  color: moodState.changeColor(index)
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontSize: 15),
+                              text: _choices[index],
+                              children: [
+                                WidgetSpan(child: _iconTypes[index])
+                              ],
+                            ),
+                          ),
+                          //Text(_choices[index],   ),
+                          selected: moodState.changeColor(index),
+                          selectedColor:
+                              const Color.fromRGBO(41, 50, 60, 1),
+                          onSelected: (bool selected) {
+                            moodState.isSelected(selected, index);
                           },
-                        ),
-                      ),
+                          labelPadding: const EdgeInsets.only(
+                              top: 32, bottom: 32, left: 21, right: 21),
+                          backgroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(16),
+                            ),
+                            side: BorderSide(color: Colors.black, width: 1),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                );
-              },
+                ),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -202,7 +192,7 @@ class _MoodPageState extends State<MoodPage> {
                           fontWeight: FontWeight.w400, fontSize: 14),
                     ),
                     Text(
-                      moodState1.choices[_defaultChoiceIndex],
+                      _choices[moodState.choiceIndex].titleCase,
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.bold, fontSize: 12),
                     )

@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weather/page/signuppage.dart';
+import 'package:weather/page/signup.dart';
 import 'package:weather/provider/provider.dart';
 import '../services/auth_services.dart';
 import 'letspage.dart';
@@ -53,13 +55,20 @@ class _MyLoginPageState extends State<MyLoginPage> {
     print("onDestroy / viewDidUnload / dispose");
     super.dispose();
   }
-
+  
   Future loginbyGoogle() async {
+    var user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await GoogleSignIn()
+          .disconnect()
+          .then((value) => AuthServices().signInWithGoogle());
+    } else {
+      await AuthServices().signInWithGoogle();
+    }
     await AuthServices().signInWithGoogle();
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const LetsPage()));
-    
+      context, MaterialPageRoute(builder: (context) => const LetsPage()));    
   }
   
   @override

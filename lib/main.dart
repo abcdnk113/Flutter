@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/page/letspage.dart';
 import 'package:weather/page/login.dart';
-import 'package:weather/page/signuppage.dart';
+import 'package:weather/page/signup.dart';
 import 'package:weather/provider/provider.dart';
 import 'package:weather/services/auth_services.dart';
 import 'firebase_options.dart';

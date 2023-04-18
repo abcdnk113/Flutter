@@ -28,8 +28,7 @@ class MyRadioOption<T> extends StatelessWidget {
       : super(key: key);
 
   Widget _buildRadioOption() {
-    final bool isSelected = value == groupValue;
-
+    final bool isSelected = value == groupValue; 
     return isSelected
         ? const Iconify(MaterialSymbols.check_circle_rounded,
             color: Colors.greenAccent)
@@ -48,9 +47,8 @@ class MyRadioOption<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 8,right: 25,top: 8,bottom: 8),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () => onChanged(value),
-        //splashColor: Colors.grey,
         child:
             Row(children: [_buildText(), const Spacer(), _buildRadioOption()]),
       ),

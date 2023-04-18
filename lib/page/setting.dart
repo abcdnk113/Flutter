@@ -13,7 +13,7 @@ import 'package:weather/components/widget.dart';
 import 'erpage.dart';
 
 enum Temprature { Celsius, Fahrenheit }
- 
+
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
@@ -40,28 +40,29 @@ class _SettingPageState extends State<SettingPage> {
                   Row(
                     children: [
                       IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            size: 30,
-                            color: Colors.black87,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const ErrPage()));
-                          }),
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          size: 30,
+                          color: Colors.black87,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ErrPage(),
+                            ),
+                          );
+                        },
+                      ),
                       const Spacer(),
                       const Iconify(
                         Majesticons.dashboard_line,
                         size: 32,
                         color: Colors.black87,
-                      )
+                      ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: h * .02),
                     child: Text(
@@ -70,31 +71,20 @@ class _SettingPageState extends State<SettingPage> {
                           fontSize: 15, fontWeight: FontWeight.bold),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Column(
                       children: [
                         buildRow(Ci.user, "Account", Carbon.notification_off,
                             Colors.white),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        buildRow(
-                            MaterialSymbols.location_on_outline_rounded,
-                            "Location",
-                            Carbon.notification_off,
-                            Colors.white),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
+                        buildRow(MaterialSymbols.location_on_outline_rounded,
+                            "Location", Carbon.notification_off, Colors.white),
+                        const SizedBox(height: 20),
                         buildRow(Carbon.notification, "Notifications",
                             Carbon.notification_off, Colors.red),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
@@ -132,17 +122,17 @@ class _SettingPageState extends State<SettingPage> {
                         //     });
                         //   },
                         // ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         MyRadioOption(
                           value: Temprature.Celsius,
                           text: "Celsius",
                           groupValue: _temp,
                           onChanged: (Temprature? value) {
-                            setState(() {
-                              _temp = value;
-                            });
+                            setState(
+                              () {
+                                _temp = value;
+                              },
+                            );
                           },
                         ),
                         const SizedBox(
@@ -153,11 +143,13 @@ class _SettingPageState extends State<SettingPage> {
                           text: "Fahrenheit",
                           groupValue: _temp,
                           onChanged: (Temprature? value) {
-                            setState(() {
-                              _temp = value;
-                            });
+                            setState(
+                              () {
+                                _temp = value;
+                              },
+                            );
                           },
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -170,26 +162,17 @@ class _SettingPageState extends State<SettingPage> {
                       children: [
                         buildRow(Gg.notes, "terms and services",
                             Carbon.notification_off, Colors.white),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         buildRow(Ion.ios_information_circle_outline, "About",
                             Carbon.notification_off, Colors.white),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                         buildRow(Ph.bug_beetle_thin, "Report buggy buggys",
                             Mingcute.bug_line, Colors.white),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
-                ]
-              )
-            )
-          );
+                ])));
   }
 
   Row buildRow(String icon, tittle, String icon1, color) {
