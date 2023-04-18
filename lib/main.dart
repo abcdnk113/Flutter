@@ -4,7 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:weather/page/letspage.dart';
 import 'package:weather/page/login.dart';
 import 'package:weather/page/signup.dart';
-import 'package:weather/provider/provider.dart';
+import 'package:weather/provider/login_provider.dart';
+import 'package:weather/provider/mood_provider.dart';
+import 'package:weather/provider/signup_provider.dart';
 import 'package:weather/services/auth_services.dart';
 import 'firebase_options.dart';
 
@@ -13,14 +15,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MultiProvider(
-      providers: [
-        Provider<AuthService>(create: (_) => AuthService(),),
-        ChangeNotifierProvider<LoginState>(create: (_) => LoginState()),
-        ChangeNotifierProvider<SignupState>(create: (_) => SignupState()),
-        ChangeNotifierProvider<MoodState>(create: (_) => MoodState() )
-      ],
-      child: const MainApp()),);
+  runApp(
+    MultiProvider(providers: [
+      Provider<AuthService>(create: (_) => AuthService()),
+      ChangeNotifierProvider<LoginState>(create: (_) => LoginState()),
+      ChangeNotifierProvider<SignupState>(create: (_) => SignupState()),
+      ChangeNotifierProvider<MoodState>(create: (_) => MoodState())
+    ], child: const MainApp()),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -28,16 +30,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        routes: {
-          '/':(context) => const MyLoginPage(),
-          '/login':(context) => const MyLoginPage(),
-          '/register':(context) => const SignUpPage(),
-          '/home':(context) => const LetsPage(),
-        },
-      )
-    ;
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LetsPage(),
+        '/login': (context) => const MyLoginPage(),
+        '/register': (context) => const SignUpPage(),
+        '/home': (context) => const LetsPage(),
+      },
+    );
   }
 }

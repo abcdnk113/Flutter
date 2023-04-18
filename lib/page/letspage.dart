@@ -5,6 +5,7 @@ import 'package:image_gradient/image_gradient.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:weather/bottomnavigation.dart';
 import 'package:weather/page/login.dart';
+import 'package:weather/provider/login_provider.dart';
 import '../services/auth_services.dart';
 
 class LetsPage extends StatefulWidget {
@@ -129,7 +130,7 @@ class _LetsPageState extends State<LetsPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const bottomNavigationBar(),
+                            builder: (context) => const MyLoginPage(),
                           ),
                         );
                       },
@@ -141,13 +142,7 @@ class _LetsPageState extends State<LetsPage> {
                             fontWeight: FontWeight.w400),
                       ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      signout();
-                    },
-                    child: const Text("Back"),
-                  ),
+                  ),                  
                   const Spacer(
                     flex: 1,
                   ),

@@ -7,7 +7,7 @@ import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:colorful_iconify_flutter/icons/twemoji.dart';
 import 'package:provider/provider.dart';
 import 'package:recase/recase.dart';
-import 'package:weather/provider/provider.dart';
+import 'package:weather/provider/mood_provider.dart';
 import '../model/weather.dart';
 import '../network/request.dart';
 
@@ -21,7 +21,6 @@ class MoodPage extends StatefulWidget {
 class _MoodPageState extends State<MoodPage> {
   late Future<WeatherClass> futureWeather;
   late List<String> _choices;
-  late int _choiceIndex;
   late int index;
   late List<Widget> _iconTypes;
   late MoodState moodState = Provider.of<MoodState>(context);
@@ -29,7 +28,6 @@ class _MoodPageState extends State<MoodPage> {
   void initState() {
     super.initState();
     futureWeather = fetchWeather();
-    _choiceIndex = 0;
     _choices = [
       "very good  ",
       "okish  ",
@@ -62,9 +60,7 @@ class _MoodPageState extends State<MoodPage> {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
-
-    
+    double h = MediaQuery.of(context).size.height;    
 
     return Scaffold(
       body: Container(
@@ -144,7 +140,7 @@ class _MoodPageState extends State<MoodPage> {
                           label: RichText(
                             text: TextSpan(
                               style: TextStyle(
-                                  color: moodState.changeColor(index)
+                                  color: moodState.changeState(index)
                                       ? Colors.white
                                       : Colors.black,
                                   fontSize: 15),
@@ -155,7 +151,7 @@ class _MoodPageState extends State<MoodPage> {
                             ),
                           ),
                           //Text(_choices[index],   ),
-                          selected: moodState.changeColor(index),
+                          selected: moodState.changeState(index),
                           selectedColor:
                               const Color.fromRGBO(41, 50, 60, 1),
                           onSelected: (bool selected) {

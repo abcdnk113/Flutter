@@ -25,7 +25,7 @@ class _MapPageState extends State<MapPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController controller = TextEditingController();
   late GoogleMapController _googleMapController;
-  static const CameraPosition _kGooglePlex = CameraPosition(
+  static const CameraPosition _myPosition = CameraPosition(
     target: LatLng(10.801620, 106.683649),
     zoom: 14.4746,
   );
@@ -152,11 +152,11 @@ class _MapPageState extends State<MapPage> {
                 child: GoogleMap(
                     markers: markers,
                     mapType: MapType.normal,
-                    myLocationButtonEnabled: true,
+                    myLocationButtonEnabled: false,
                     myLocationEnabled: true,
                     zoomControlsEnabled: false,
                     scrollGesturesEnabled: true,
-                    initialCameraPosition: _kGooglePlex,
+                    initialCameraPosition: _myPosition,
                     onMapCreated: (controller) {
                       _googleMapController = controller;
                       _googleMapController.setMapStyle(_mapStyle);
