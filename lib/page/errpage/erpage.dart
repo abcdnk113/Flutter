@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weather/bottomnavigation.dart';
+import 'package:weather/page/navigationpage/bottomnavigation.dart';
 
 class ErrPage extends StatelessWidget {
   const ErrPage({super.key});
@@ -48,7 +48,7 @@ class ErrPage extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const bottomNavigationBar(),
+                    builder: (context) => bottomNavigationBar(),
                   ),
                 );
               },

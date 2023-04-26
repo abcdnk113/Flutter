@@ -1,10 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/model/weather.dart';
 import 'package:weather/network/request.dart';
+import 'package:weather/page/settingpage/setting_provider.dart';
+
+import '../../services/auth_services.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
+    final temp = Provider.of<TempratureProvider>(context);
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(vertical: w * .12, horizontal: h * .04),
@@ -67,10 +74,18 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 const Spacer(),
-                const Iconify(
-                  Majesticons.dashboard_line,
-                  size: 32,
-                  color: Colors.black,
+                IconButton(
+                  icon: const Iconify(
+                    Majesticons.dashboard_line,
+                    size: 32,
+                    color: Colors.black,
+                  ),
+                  onPressed: () async {
+                    var user = FirebaseAuth.instance.currentUser;
+                    if (user != null) {                      
+                      await AuthService().signOut();
+                    }
+                  },
                 ) // widget
               ],
             ),
@@ -115,6 +130,8 @@ class _HomePageState extends State<HomePage> {
                 future: futureWeather,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    double? tempC = snapshot.data?.main?.temp?.toDouble();
+                    double tempF = tempC! * 1.8000 + 32;
                     return Column(
                       children: [
                         Center(
@@ -132,7 +149,9 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "${snapshot.data?.main?.temp?.round().toString()}°C",
+                                    temp.temprature == Temprature.Celsius
+                                        ? "${tempC.round()}°C"
+                                        : "${tempF.round()}°F",
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 44,

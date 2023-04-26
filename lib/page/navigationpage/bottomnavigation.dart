@@ -3,36 +3,35 @@ import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ph.dart';
 import 'package:flutter/material.dart';
-import 'page/home.dart';
-import 'page/map.dart';
-import 'page/mood.dart';
-import 'page/setting.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/page/navigationpage/navigation_provider.dart';
+import '../homepage/home.dart';
+import '../moodpage/mood.dart';
+import '../settingpage/setting.dart';
+import 'package:weather/page/mappage/map.dart';
 
-class bottomNavigationBar extends StatefulWidget {
-  const bottomNavigationBar({super.key});
+// ignore: must_be_immutable
+class bottomNavigationBar extends StatelessWidget {
+  bottomNavigationBar({super.key});   
+  BottomNavigationBarProvider? screenState;  
 
   @override
-  State<bottomNavigationBar> createState() => _bottomNavigationBarState();
-}
-
-class _bottomNavigationBarState extends State<bottomNavigationBar> {
-  int index = 0;
+  Widget build(BuildContext context) {
   final screens = [
     const HomePage(),
     const MoodPage(),
     const MapPage(),
     const SettingPage(),
   ];
-
-  @override
-  Widget build(BuildContext context) {
+    screenState = Provider.of<BottomNavigationBarProvider>(context);
     return Scaffold(
-      body: screens[index],
-      bottomNavigationBar: buildMyNavBar(context),     
+      body: screens[screenState!.currentIndex],
+      bottomNavigationBar: buildMyNavBar(context),
     );
   }
 
   Container buildMyNavBar(BuildContext context) {
+    screenState = Provider.of<BottomNavigationBarProvider>(context);
     return Container(
       height: 60,
       decoration: const BoxDecoration(
@@ -45,16 +44,14 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
             height: 48,
             width: 64,
             decoration: BoxDecoration(
-                color: index == 0 ? Colors.black : Colors.transparent,
+                color: screenState!.currentIndex == 0 ? Colors.black : Colors.transparent,
                 borderRadius: BorderRadius.circular(16)),
             child: IconButton(
               enableFeedback: false,
               onPressed: () {
-                setState(() {
-                  index = 0;
-                });
+                screenState!.currentIndex = 0;
               },
-              icon: index == 0
+              icon: screenState!.currentIndex == 0
                   ? const Iconify(
                       MaterialSymbols.sunny_outline_rounded,
                       color: Colors.white,
@@ -71,16 +68,14 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
             height: 48,
             width: 64,
             decoration: BoxDecoration(
-                color: index == 1 ? Colors.black : Colors.transparent,
+                color: screenState!.currentIndex == 1 ? Colors.black : Colors.transparent,
                 borderRadius: BorderRadius.circular(16)),
             child: IconButton(
               enableFeedback: false,
               onPressed: () {
-                setState(() {
-                  index = 1;
-                });
+                screenState!.currentIndex = 1;
               },
-              icon: index == 1
+              icon: screenState!.currentIndex == 1
                   ? const Iconify(
                       MaterialSymbols.cloud_outline,
                       color: Colors.white,
@@ -97,16 +92,14 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
             height: 48,
             width: 64,
             decoration: BoxDecoration(
-                color: index == 2 ? Colors.black : Colors.transparent,
+                color: screenState!.currentIndex == 2 ? Colors.black : Colors.transparent,
                 borderRadius: BorderRadius.circular(16)),
             child: IconButton(
               enableFeedback: false,
               onPressed: () {
-                setState(() {
-                  index = 2;
-                });
+                screenState!.currentIndex = 2;
               },
-              icon: index == 2
+              icon: screenState!.currentIndex == 2
                   ? const Iconify(
                       MaterialSymbols.location_on_outline_rounded,
                       color: Colors.white,
@@ -123,16 +116,14 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
             height: 48,
             width: 64,
             decoration: BoxDecoration(
-                color: index == 3 ? Colors.black : Colors.transparent,
+                color: screenState!.currentIndex == 3 ? Colors.black : Colors.transparent,
                 borderRadius: BorderRadius.circular(16)),
             child: IconButton(
               enableFeedback: false,
               onPressed: () {
-                setState(() {
-                  index = 3;
-                });
+                screenState!.currentIndex = 3;
               },
-              icon: index == 3
+              icon: screenState!.currentIndex == 3
                   ? const Iconify(
                       Ph.lightning_bold,
                       color: Colors.white,

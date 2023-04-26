@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/page/letspage.dart';
-import 'package:weather/page/login.dart';
+import 'package:weather/page/letspage/letspage.dart';
+import 'package:weather/page/loginpage/login.dart';
 import 'package:weather/services/auth_services.dart';
 
-import 'model/user_model.dart';
+import '../model/user_model.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});

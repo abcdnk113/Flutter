@@ -6,10 +6,10 @@ import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:colorful_iconify_flutter/icons/twemoji.dart';
 import 'package:provider/provider.dart';
-import 'package:recase/recase.dart';
-import 'package:weather/provider/mood_provider.dart';
-import '../model/weather.dart';
-import '../network/request.dart';
+import 'package:weather/page/moodpage/mood_provider.dart';
+import '../../model/weather.dart';
+import '../../network/request.dart';
+import 'package:weather/components/recase.dart';
 
 class MoodPage extends StatefulWidget {
   const MoodPage({super.key});
@@ -60,7 +60,7 @@ class _MoodPageState extends State<MoodPage> {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;    
+    double h = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Container(
@@ -111,9 +111,7 @@ class _MoodPageState extends State<MoodPage> {
                 )
               ],
             ),
-            const SizedBox(
-              height: 44,
-            ),
+            const SizedBox(height: 44),
             Text(
               'How You feel Today ?',
               style: GoogleFonts.poppins(
@@ -124,8 +122,7 @@ class _MoodPageState extends State<MoodPage> {
             ),
             //wrap
             ShaderMask(
-              shaderCallback: (bounds) =>
-                  _maskingGradient.createShader(bounds),
+              shaderCallback: (bounds) => _maskingGradient.createShader(bounds),
               blendMode: BlendMode.dstIn,
               child: SizedBox(
                 height: 400,
@@ -134,8 +131,8 @@ class _MoodPageState extends State<MoodPage> {
                     spacing: 19,
                     runSpacing: 18,
                     children: List<Widget>.generate(
-                      _choices.length,(index)                           
-                      { 
+                      _choices.length,
+                      (index) {
                         return ChoiceChip(
                           label: RichText(
                             text: TextSpan(
@@ -145,15 +142,12 @@ class _MoodPageState extends State<MoodPage> {
                                       : Colors.black,
                                   fontSize: 15),
                               text: _choices[index],
-                              children: [
-                                WidgetSpan(child: _iconTypes[index])
-                              ],
+                              children: [WidgetSpan(child: _iconTypes[index])],
                             ),
                           ),
                           //Text(_choices[index],   ),
                           selected: moodState.changeState(index),
-                          selectedColor:
-                              const Color.fromRGBO(41, 50, 60, 1),
+                          selectedColor: const Color.fromRGBO(41, 50, 60, 1),
                           onSelected: (bool selected) {
                             moodState.isSelected(selected, index);
                           },
@@ -173,9 +167,7 @@ class _MoodPageState extends State<MoodPage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

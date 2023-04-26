@@ -1,14 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:weather/bottomnavigation.dart';
-import 'package:weather/page/signup.dart';
-import 'package:weather/provider/login_provider.dart';
-import '../services/auth_services.dart';
-import 'letspage.dart';
+import 'package:weather/page/navigationpage/bottomnavigation.dart';
+import 'package:weather/page/signuppage/signup.dart';
+import 'package:weather/page/loginpage/login_provider.dart';
+import '../../components/textfield.dart';
+import '../../components/widget.dart';
+import '../../services/auth_services.dart';
 
 // ignore: must_be_immutable
 class MyLoginPage extends StatefulWidget {
@@ -19,13 +18,7 @@ class MyLoginPage extends StatefulWidget {
 }
 
 class _MyLoginPageState extends State<MyLoginPage> {
-  bool isEmailValidate = true;
-
-  bool isPassValidate = true;
-
-  final emailController = TextEditingController();
-
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   late LoginState? loginState;
 
@@ -39,26 +32,26 @@ class _MyLoginPageState extends State<MyLoginPage> {
 
   void layoutComplete() {
     loginState?.passwordController.clear();
-  }  
+    loginState?.emailController.clear();
+  }
+
   Future loginbyGoogle() async {
     var user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      await GoogleSignIn()
-          .disconnect()
-          .then((value) => AuthServices().signInWithGoogle());
-    } else {
-      await AuthServices().signInWithGoogle();
+      await AuthService().signOut();
     }
-    await AuthServices().signInWithGoogle();
+    await AuthService().signInWithGoogle();
     // ignore: use_build_context_synchronously
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const bottomNavigationBar()));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => bottomNavigationBar(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // text editing controllers
-    final authService = Provider.of<AuthService>(context);
     loginState = Provider.of<LoginState>(context);
 
     double w = MediaQuery.of(context).size.width;
@@ -95,111 +88,39 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     fontSize: 16,
                     fontWeight: FontWeight.w400),
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SizedBox(height: 15),
               Form(
-                key: formKey,
+                key: _formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFormField(
-                      style: GoogleFonts.poppins(fontSize: 16),
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      obscureText: false,
-                      decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.white),
-                              borderRadius: BorderRadius.circular(18)),
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade400),
-                              borderRadius: BorderRadius.circular(18)),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.grey.shade400,
-                            ),
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          // errorText: !isEmailValidate
-                          //     ? "Please enter your email"
-                          //     : null,
-                          fillColor: Colors.grey.shade200,
-                          filled: true,
-                          hintText: "stephen@gmail.com",
-                          hintStyle: GoogleFonts.poppins(
-                              color: Colors.grey[500], fontSize: 16)),
-                      // onTap: () {
-                      //   if (emailController.text.isEmpty) {
-                      //     isEmailValidate = false;
-                      //   }
-                      // }
+                    MyTextField(
+                      controller: loginState?.emailController,
+                      hintText: "stephen@gmail.com",
+                      onChanged: () {
+                        loginState?.changeEmailValidate();
+                      },
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Consumer<LoginState>(
-                      builder: (context, loginstate, child) {
-                        return TextFormField(
-                          style: GoogleFonts.poppins(fontSize: 16),
-                          controller: loginstate.passwordController,
-                          keyboardType: TextInputType.visiblePassword,
-                          textInputAction: TextInputAction.send,
-                          obscureText: !loginstate.showPass,
-                          // onChanged: (value) => {
-                          //   LoginState.passwordController.text = value
-                          // },
-                          decoration: InputDecoration(
-                              hintText: "",
-                              suffixIcon: InkWell(
-                                onTap: () => {
-                                  loginstate.changeVisiblity(),
-                                },
-                                child: !loginstate.showPass
-                                    ? const Icon(
-                                        Icons.visibility_off,
-                                        color: Colors.black,
-                                      )
-                                    : const Icon(
-                                        Icons.visibility,
-                                        color: Colors.black,
-                                      ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      const BorderSide(color: Colors.white),
-                                  borderRadius: BorderRadius.circular(18)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.grey.shade400),
-                                  borderRadius: BorderRadius.circular(18)),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade400,
-                                ),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              fillColor: Colors.grey.shade200,
-                              filled: true,
-                              // errorText: !isPassValidate
-                              //     ? "Please enter your password!"
-                              //     : null,
-                              hintStyle: GoogleFonts.poppins(
-                                color: Colors.grey[500],
-                                fontSize: 16,
-                              )),
-                        );
+                    const SizedBox(height: 10),
+                    MyPasswordTextField(
+                      controller: loginState?.passwordController,
+                      hintText: "",
+                      obscureText: loginState!.showPass,
+                      onChanged: () {
+                        loginState?.changePassValidate();
+                      },
+                      onTav: () {
+                        loginState?.changePassValidate();
+                      },
+                      onTap: () {
+                        loginState?.changeVisiblity();
                       },
                     ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               Align(
                 alignment: Alignment.topRight,
                 child: Text(
@@ -207,9 +128,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                   style: GoogleFonts.poppins(fontSize: 16),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               //--------or-------
               SizedBox(
                 width: MediaQuery.of(context).size.width - 32,
@@ -289,23 +208,23 @@ class _MyLoginPageState extends State<MyLoginPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       GestureDetector(
-                        onTap: () async {
-                          final credential =
-                              await SignInWithApple.getAppleIDCredential(
-                            scopes: [
-                              AppleIDAuthorizationScopes.email,
-                              AppleIDAuthorizationScopes.fullName,
-                            ],
-                          );
-                          // ignore: use_build_context_synchronously
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LetsPage(),
-                            ),
-                          );
-                          // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-                          // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                        onTap: () {
+                          // final credential =
+                          //     await SignInWithApple.getAppleIDCredential(
+                          //   scopes: [
+                          //     AppleIDAuthorizationScopes.email,
+                          //     AppleIDAuthorizationScopes.fullName,
+                          //   ],
+                          // );
+                          // // ignore: use_build_context_synchronously
+                          // Navigator.pushReplacement(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const LetsPage(),
+                          //   ),
+                          // );
+                          // // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+                          // // after they have been validated with Apple (see `Integration` section for more information on how to do this)
                         },
                         child: Container(
                           width: 80,
@@ -355,11 +274,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                     ),
                     onPressed: () {
-                      //login();
-                      authService.signInWithEmailAndPassword(
-                          emailController.text,
-                          loginState?.passwordController.text ?? "");
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const bottomNavigationBar()));
+                      login();
                     },
                     child: Text(
                       'Login',
@@ -386,7 +301,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const SignUpPage(),
@@ -405,5 +320,28 @@ class _MyLoginPageState extends State<MyLoginPage> {
         ),
       ),
     );
+  }
+
+  Future login() async {
+    if (loginState!.isEmailValidate && loginState!.isPassValidate) {
+      if (_formKey.currentState!.validate()) {
+        try {
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+              email: loginState!.emailController.text,
+              password: loginState!.passwordController.text);
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => bottomNavigationBar()));
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'user-not-found') {
+            showSnackBar(context, "User not found", Colors.red);
+          } else if (e.code == 'wrong-password') {
+            showSnackBar(context, "Wrong password", Colors.red);
+          }
+        }
+      }
+    } else {
+      showSnackBar(context, "Invalid mail or password", Colors.red);
+    }
   }
 }

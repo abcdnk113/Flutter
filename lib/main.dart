@@ -1,14 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/page/letspage.dart';
-import 'package:weather/page/login.dart';
-import 'package:weather/page/signup.dart';
-import 'package:weather/provider/login_provider.dart';
-import 'package:weather/provider/mood_provider.dart';
-import 'package:weather/provider/signup_provider.dart';
+import 'package:weather/page/letspage/letspage.dart';
+import 'package:weather/page/loginpage/login.dart';
+import 'package:weather/page/mappage/map_provider.dart';
+import 'package:weather/page/navigationpage/navigation_provider.dart';
+import 'package:weather/page/settingpage/setting_provider.dart';
+import 'package:weather/page/signuppage/signup.dart';
+import 'package:weather/page/loginpage/login_provider.dart';
+import 'package:weather/page/moodpage/mood_provider.dart';
+import 'package:weather/page/signuppage/signup_provider.dart';
 import 'package:weather/services/auth_services.dart';
-import 'firebase_options.dart';
+import 'services/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +23,10 @@ void main() async {
       Provider<AuthService>(create: (_) => AuthService()),
       ChangeNotifierProvider<LoginState>(create: (_) => LoginState()),
       ChangeNotifierProvider<SignupState>(create: (_) => SignupState()),
-      ChangeNotifierProvider<MoodState>(create: (_) => MoodState())
+      ChangeNotifierProvider<MoodState>(create: (_) => MoodState()),
+      ChangeNotifierProvider<BottomNavigationBarProvider>(create: (_)=>BottomNavigationBarProvider()),
+      ChangeNotifierProvider<TempratureProvider>(create: (_)=>TempratureProvider()),
+      ChangeNotifierProvider<PlacesProvider>(create: (_)=>PlacesProvider())
     ], child: const MainApp()),
   );
 }

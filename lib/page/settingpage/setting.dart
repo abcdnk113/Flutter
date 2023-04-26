@@ -9,21 +9,13 @@ import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:iconify_flutter/icons/mingcute.dart';
 import 'package:iconify_flutter/icons/ph.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/components/widget.dart';
-import 'erpage.dart';
+import 'package:weather/page/settingpage/setting_provider.dart';
+import '../errpage/erpage.dart';
 
-enum Temprature { Celsius, Fahrenheit }
-
-class SettingPage extends StatefulWidget {
-  const SettingPage({super.key});
-
-  @override
-  State<SettingPage> createState() => _SettingPageState();
-}
-
-class _SettingPageState extends State<SettingPage> {
-  Temprature? _temp = Temprature.Celsius;
-
+class SettingPage extends StatelessWidget {
+  const SettingPage({super.key});  
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
@@ -97,62 +89,34 @@ class _SettingPageState extends State<SettingPage> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Column(
-                children: [
-                  // RadioListTile<Temprature>(
-                  //   controlAffinity: ListTileControlAffinity.trailing,
-                  //   title: const Text("Celsius"),
-                  //   value: Temprature.Celsius,
-                  //   groupValue: _temp,
-                  //   onChanged: (Temprature? value) {
-                  //     setState(() {
-                  //       _temp = value;
-                  //     });
-                  //   },
-                  // ),
-                  // RadioListTile<Temprature>(
-                  //   controlAffinity: ListTileControlAffinity.trailing,
-                  //   title: const Text("Fahrenheit"),
-                  //   value: Temprature.Fahrenheit,
-                  //   groupValue: _temp,
-                  //   onChanged: (Temprature? value) {
-                  //     setState(() {
-                  //       _temp = value;
-                  //     });
-                  //   },
-                  // ),
-                  const SizedBox(height: 10),
-                  MyRadioOption(
-                    value: Temprature.Celsius,
-                    text: "Celsius",
-                    groupValue: _temp,
-                    onChanged: (Temprature? value) {
-                      setState(
-                        () {
-                          _temp = value;
+              child: Consumer<TempratureProvider>(
+                builder: (context, temp, child) {
+                  return Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      MyRadioOption<Temprature>(
+                        value: Temprature.Celsius,
+                        text: "Celsius",
+                        groupValue: temp.temprature,
+                        onChanged: (Temprature? value) {
+                          temp.temprature = value;
                         },
-                      );
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  MyRadioOption(
-                    value: Temprature.Fahrenheit,
-                    text: "Fahrenheit",
-                    groupValue: _temp,
-                    onChanged: (Temprature? value) {
-                      setState(() {
-                        _temp = value;
-                      });
-                    },
-                  ),
-                ],
+                      ),
+                      const SizedBox(height: 10),
+                      MyRadioOption<Temprature>(
+                        value: Temprature.Fahrenheit,
+                        text: "Fahrenheit",
+                        groupValue: temp.temprature,
+                        onChanged: (Temprature? value) {
+                          temp.temprature = value;
+                        },
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 25),
               child: Column(

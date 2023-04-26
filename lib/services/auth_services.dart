@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:google_sign_in/google_sign_in.dart';
 import '../model/user_model.dart';
 
-
 // provider auth email, password
 class AuthService {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
@@ -22,29 +21,50 @@ class AuthService {
     String email,
     String password,
   ) async {
-    final credential =  await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
-    return _userFromFirebase(credential.user);
+    try {
+      final credential = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return _userFromFirebase(credential.user);
+    } on auth.FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+    return null;
   }
 
   Future<User?> createUserWithEmailAndPassword(
     String email,
     String password,
   ) async {
-    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    return _userFromFirebase(credential.user);
+    try {
+      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return _userFromFirebase(credential.user);
+    } on auth.FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null;
   }
 
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();     
-  }  
-}
-class AuthServices {
+    await _firebaseAuth.signOut();
+  }
+
   signInWithGoogle() async {
     //begin interface sign in process
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-    if (gUser == null){
+    if (gUser == null) {
       return null;
     }
     //obtain auth details from request
@@ -53,9 +73,6 @@ class AuthServices {
     final credential = auth.GoogleAuthProvider.credential(
         accessToken: gAuth.accessToken, idToken: gAuth.idToken);
     //sign in
-    return await auth.FirebaseAuth.instance.signInWithCredential(credential);
+    return await _firebaseAuth.signInWithCredential(credential);
   }
 }
-
-
-
