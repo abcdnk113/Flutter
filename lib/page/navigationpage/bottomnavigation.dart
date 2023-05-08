@@ -12,17 +12,17 @@ import 'package:weather/page/mappage/map.dart';
 
 // ignore: must_be_immutable
 class bottomNavigationBar extends StatelessWidget {
-  bottomNavigationBar({super.key});   
-  BottomNavigationBarProvider? screenState;  
+  bottomNavigationBar({super.key});
+  BottomNavigationBarProvider? screenState;
 
   @override
   Widget build(BuildContext context) {
-  final screens = [
-    const HomePage(),
-    const MoodPage(),
-    const MapPage(),
-    const SettingPage(),
-  ];
+    final screens = [
+      const HomePage(),
+      const MoodPage(),
+      const MapPage(),
+      const SettingPage(),
+    ];
     screenState = Provider.of<BottomNavigationBarProvider>(context);
     return Scaffold(
       body: screens[screenState!.currentIndex],
@@ -44,8 +44,11 @@ class bottomNavigationBar extends StatelessWidget {
             height: 48,
             width: 64,
             decoration: BoxDecoration(
-                color: screenState!.currentIndex == 0 ? Colors.black : Colors.transparent,
-                borderRadius: BorderRadius.circular(16)),
+              color: screenState!.currentIndex == 0
+                  ? Colors.black
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: IconButton(
               enableFeedback: false,
               onPressed: () {
@@ -68,8 +71,11 @@ class bottomNavigationBar extends StatelessWidget {
             height: 48,
             width: 64,
             decoration: BoxDecoration(
-                color: screenState!.currentIndex == 1 ? Colors.black : Colors.transparent,
-                borderRadius: BorderRadius.circular(16)),
+              color: screenState!.currentIndex == 1
+                  ? Colors.black
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: IconButton(
               enableFeedback: false,
               onPressed: () {
@@ -92,8 +98,11 @@ class bottomNavigationBar extends StatelessWidget {
             height: 48,
             width: 64,
             decoration: BoxDecoration(
-                color: screenState!.currentIndex == 2 ? Colors.black : Colors.transparent,
-                borderRadius: BorderRadius.circular(16)),
+              color: screenState!.currentIndex == 2
+                  ? Colors.black
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: IconButton(
               enableFeedback: false,
               onPressed: () {
@@ -116,8 +125,11 @@ class bottomNavigationBar extends StatelessWidget {
             height: 48,
             width: 64,
             decoration: BoxDecoration(
-                color: screenState!.currentIndex == 3 ? Colors.black : Colors.transparent,
-                borderRadius: BorderRadius.circular(16)),
+              color: screenState!.currentIndex == 3
+                  ? Colors.black
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: IconButton(
               enableFeedback: false,
               onPressed: () {

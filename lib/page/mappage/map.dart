@@ -1,8 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_collection_literals
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -20,7 +18,7 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
 
-  late LatLng _currentPosition;
+  //late LatLng _currentPosition;
   String? _mapStyle;
   final textEditingController = TextEditingController();
   late GoogleMapController _googleMapController;
@@ -187,23 +185,6 @@ class _MapPageState extends State<MapPage> {
         ),
       ),
     );
-  }
-
-  getLocation() async {  
-
-    // ignore: unused_local_variable
-    LocationPermission permission = await Geolocator.requestPermission();
-
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    double lat = position.latitude;
-    double long = position.longitude;
-
-    LatLng location = LatLng(lat, long);
-
-    setState(() {
-      _currentPosition = location;
-    });
   }
 
   void _onSearchChanged(String query) async {

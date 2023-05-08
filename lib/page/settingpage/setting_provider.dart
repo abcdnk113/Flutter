@@ -10,8 +10,5 @@ class TempratureProvider with ChangeNotifier {
     _temprature = value;
     notifyListeners();
   }
-  
-  
-
 }
   
