@@ -11,13 +11,20 @@ import 'package:iconify_flutter/icons/mingcute.dart';
 import 'package:iconify_flutter/icons/ph.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/components/widget.dart';
+import 'package:weather/page/detailpage/detail.dart';
+import 'package:weather/page/navigationpage/navigation_provider.dart';
 import 'package:weather/page/settingpage/setting_provider.dart';
 import '../errpage/erpage.dart';
 
+// ignore: must_be_immutable
 class SettingPage extends StatelessWidget {
-  const SettingPage({super.key});  
+  SettingPage({super.key});
+  BottomNavigationBarProvider? screenState;
+  TempratureProvider? settingState;
   @override
   Widget build(BuildContext context) {
+    screenState = Provider.of<BottomNavigationBarProvider>(context);
+    settingState = Provider.of<TempratureProvider>(context);
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -66,15 +73,81 @@ class SettingPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Column(
-                children: [
-                  buildRow(Ci.user, "Account", Carbon.notification_off,
-                      Colors.white),
+                children: [                  
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: ((context) => const DetailPage())));
+                    },
+                    child: Row(
+                      children: [
+                        const Iconify(
+                          Ci.user,
+                          size: 14,
+                          color: Colors.black,
+                        ),
+                        const SizedBox(width: 15),
+                        Text(
+                          "Account",
+                          style: GoogleFonts.poppins(
+                              fontSize: 15, color: Colors.black),
+                        ),
+                        const Spacer(flex: 1),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 20),
-                  buildRow(MaterialSymbols.location_on_outline_rounded,
-                      "Location", Carbon.notification_off, Colors.white),
+                  GestureDetector(
+                    onTap: () {
+                      screenState?.currentIndex = 2;
+                    },
+                    child: Row(
+                      children: [
+                        const Iconify(
+                          MaterialSymbols.location_on_outline_rounded,
+                          size: 14,
+                          color: Colors.black,
+                        ),
+                        const SizedBox(width: 15),
+                        Text(
+                          "Location",
+                          style: GoogleFonts.poppins(
+                              fontSize: 15, color: Colors.black),
+                        ),
+                        const Spacer(flex: 1),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 20),
-                  buildRow(Carbon.notification, "Notifications",
-                      Carbon.notification_off, Colors.red),
+                  GestureDetector(
+                    onTap: () {
+                      settingState?.changeState();
+                    },
+                    child: Row(
+                      children: [
+                        const Iconify(
+                          Carbon.notification,
+                          size: 14,
+                          color: Colors.black,
+                        ),
+                        const SizedBox(width: 15),
+                        Text(
+                          "Notifications",
+                          style: GoogleFonts.poppins(
+                              fontSize: 15, color: Colors.black),
+                        ),
+                        const Spacer(flex: 5),
+                        Iconify( settingState!.tap  
+                          ? Carbon.notification_off
+                          : Carbon.notification,
+                          size: 14,
+                          color: settingState!.tap
+                          ? Colors.red
+                          : Colors.green,
+                        ),
+                        const Spacer(flex: 1),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 20),
                 ],
               ),

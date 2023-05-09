@@ -21,7 +21,7 @@ class bottomNavigationBar extends StatelessWidget {
       const HomePage(),
       const MoodPage(),
       const MapPage(),
-      const SettingPage(),
+      SettingPage(),
     ];
     screenState = Provider.of<BottomNavigationBarProvider>(context);
     return Scaffold(

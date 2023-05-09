@@ -5,6 +5,7 @@ import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/majesticons.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:provider/provider.dart';
+import 'package:weather/components/recase.dart';
 import 'package:weather/model/weather.dart';
 import 'package:weather/network/request.dart';
 import 'package:weather/page/settingpage/setting_provider.dart';
@@ -163,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                                     fit: BoxFit.cover,
                                   ),
                                   Text(
-                                    snapshot.data!.weather![0].description!,
+                                    snapshot.data!.weather![0].description!.titleCase,
                                     style: GoogleFonts.poppins(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
