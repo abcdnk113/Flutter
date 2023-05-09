@@ -17,16 +17,12 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-
   //late LatLng _currentPosition;
   String? _mapStyle;
   final textEditingController = TextEditingController();
   late GoogleMapController _googleMapController;
-  late PlacesProvider placesProvider = Provider.of<PlacesProvider>(context);
-  static const CameraPosition _myPosition = CameraPosition(
-    target: LatLng(10.801620, 106.683649),
-    zoom: 14.4746,
-  );
+  late PlacesProvider placesProvider = Provider.of<PlacesProvider>(context);  
+  static const LatLng _myPosition = LatLng(10.801620, 106.683649);
   @override
   void dispose() {
     _googleMapController.dispose();
@@ -43,6 +39,7 @@ class _MapPageState extends State<MapPage> {
       },
     );
   }
+
   //final _controller = TextEditingController();
   final _placesApi =
       GeoapifyPlacesApi(apiKey: '188c7813599f48708c016d3d3e9a0027');
@@ -172,11 +169,11 @@ class _MapPageState extends State<MapPage> {
                     myLocationEnabled: true,
                     zoomControlsEnabled: true,
                     scrollGesturesEnabled: true,
-                    initialCameraPosition: _myPosition,
-                    onMapCreated: (controller) {
-                      _googleMapController = controller;
-                      _googleMapController.setMapStyle(_mapStyle);
-                    },
+                    initialCameraPosition: const CameraPosition(target: _myPosition),
+                    onMapCreated: _onMapCreated,
+                    // onCameraMove: (newPosition) {
+                    //   placesProvider.updateCameraPosition(newPosition);
+                    // },
                   ),
                 ),
               ),
@@ -186,10 +183,28 @@ class _MapPageState extends State<MapPage> {
       ),
     );
   }
-
+  void _onMapCreated(GoogleMapController controller) {
+    _googleMapController = controller;
+    _googleMapController.setMapStyle(_mapStyle);
+    Marker deMarker = const Marker(
+      markerId: MarkerId('defaultMarker'),
+      position: LatLng(10.801620, 106.683649 ),
+      infoWindow: InfoWindow(title: "My Position"),
+    );
+    // Show the user's current location
+    _googleMapController.animateCamera(
+      CameraUpdate.newCameraPosition(
+        const CameraPosition(
+          target: _myPosition,
+          zoom: 10.0,
+        ),
+      ),
+    );
+    placesProvider.addMarker(deMarker);
+  }
   void _onSearchChanged(String query) async {
     try {
-      final results = await _placesApi.autocomplete(query: query);      
+      final results = await _placesApi.autocomplete(query: query);
       placesProvider.setSearchResults(results);
     } catch (e) {
       print("Error: $e");
@@ -201,6 +216,7 @@ class _MapPageState extends State<MapPage> {
       target: LatLng(result.lat, result.lng),
       zoom: 10,
     );
+
     _googleMapController
         .animateCamera(CameraUpdate.newCameraPosition(newCameraPosition));
 
@@ -210,9 +226,16 @@ class _MapPageState extends State<MapPage> {
       infoWindow: InfoWindow(title: result.formatted),
     );
 
+    // placesProvider.updateCameraPosition(newCameraPosition);
+
     placesProvider.addMarker(newMarker);
+
     // Clear search results and text field
     placesProvider.clearSearchResults();
   }
 }
 
+
+
+
+  
