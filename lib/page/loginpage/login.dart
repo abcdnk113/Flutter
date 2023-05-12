@@ -36,6 +36,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
   }
 
   Future loginbyGoogle() async {
+    try {
     var user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       await AuthService().signOut();
@@ -47,7 +48,10 @@ class _MyLoginPageState extends State<MyLoginPage> {
       MaterialPageRoute(
         builder: (context) => bottomNavigationBar(),
       ),
-    );
+    );}
+    catch (e){
+      print(e);
+    }
   }
 
   @override

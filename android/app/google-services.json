@@ -20,10 +20,6 @@
             "package_name": "com.example.weather",
             "certificate_hash": "d6e8852b40061bd01a57467c13a5828605d188c2"
           }
-        },
-        {
-          "client_id": "278876406126-kl8p0vv5h7pm5fk8rudoj44kpns92jmu.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [

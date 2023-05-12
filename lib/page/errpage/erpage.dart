@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:weather/page/navigationpage/bottomnavigation.dart';
-import 'package:weather/page/navigationpage/navigation_provider.dart';
 
 class ErrPage extends StatelessWidget {
   const ErrPage({super.key});
@@ -10,7 +8,6 @@ class ErrPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
-    double h = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -21,10 +21,12 @@ class SettingPage extends StatelessWidget {
   SettingPage({super.key});
   BottomNavigationBarProvider? screenState;
   TempratureProvider? settingState;
+  TopicSubscriptionModel? messState;
   @override
   Widget build(BuildContext context) {
     screenState = Provider.of<BottomNavigationBarProvider>(context);
     settingState = Provider.of<TempratureProvider>(context);
+    messState = Provider.of<TopicSubscriptionModel>(context);
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -82,7 +84,7 @@ class SettingPage extends StatelessWidget {
                       children: [
                         const Iconify(
                           Ci.user,
-                          size: 14,
+                          size: 20,
                           color: Colors.black,
                         ),
                         const SizedBox(width: 15),
@@ -104,7 +106,7 @@ class SettingPage extends StatelessWidget {
                       children: [
                         const Iconify(
                           MaterialSymbols.location_on_outline_rounded,
-                          size: 14,
+                          size: 20,
                           color: Colors.black,
                         ),
                         const SizedBox(width: 15),
@@ -120,13 +122,13 @@ class SettingPage extends StatelessWidget {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
-                      settingState?.changeState();
+                      messState?.toggleSubscription();
                     },
                     child: Row(
                       children: [
                         const Iconify(
                           Carbon.notification,
-                          size: 14,
+                          size: 20,
                           color: Colors.black,
                         ),
                         const SizedBox(width: 15),
@@ -136,13 +138,13 @@ class SettingPage extends StatelessWidget {
                               fontSize: 15, color: Colors.black),
                         ),
                         const Spacer(flex: 5),
-                        Iconify( settingState!.tap  
-                          ? Carbon.notification_off
-                          : Carbon.notification,
-                          size: 14,
-                          color: settingState!.tap
-                          ? Colors.red
-                          : Colors.green,
+                        Iconify( messState!.isSubscribed
+                          ? Carbon.notification
+                          : Carbon.notification_off,
+                          size: 20,
+                          color: messState!.isSubscribed
+                          ? Colors.green
+                          : Colors.red,
                         ),
                         const Spacer(flex: 1),
                       ],
@@ -217,7 +219,7 @@ class SettingPage extends StatelessWidget {
       children: [
         Iconify(
           icon,
-          size: 14,
+          size: 20,
           color: Colors.black,
         ),
         const SizedBox(width: 15),

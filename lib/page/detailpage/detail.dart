@@ -66,26 +66,34 @@ class DetailPage extends StatelessWidget {
             const Spacer(),
             const Text("User Detail",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
             Padding(
-              padding: const EdgeInsets.all(40.0),
+              padding: const EdgeInsets.only(left: 40.0,top: 20,right: 40),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Image.network("${FirebaseAuth.instance.currentUser?.photoURL}",fit: BoxFit.cover,),
+                  const SizedBox(height: 20,),
                   Row(                    
                     children: [
                       const Text("Display Name: "),
-                      Text("${FirebaseAuth.instance.currentUser?.displayName}",style: const TextStyle(fontSize: 16),),
+                      Text(FirebaseAuth.instance.currentUser?.displayName ?? "",style: const TextStyle(fontSize: 16),),
                     ],
                   ),
                   Row(                    
                     children: [
                       const Text("Email: "),
-                      Text("${FirebaseAuth.instance.currentUser?.email}",style: const TextStyle(fontSize: 16),),
+                      Text(FirebaseAuth.instance.currentUser?.email ?? "",style: const TextStyle(fontSize: 16),),
+                    ],
+                  ),
+                  Row(                    
+                    children: [
+                      const Text("Phone: "),
+                      Text(FirebaseAuth.instance.currentUser?.phoneNumber ?? "",style: const TextStyle(fontSize: 16),),
                     ],
                   ),
                 ],
               ),
             ),
-            const Spacer(),
+            const Spacer(flex: 2,),
           ],
         ),
       ),

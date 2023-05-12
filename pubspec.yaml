@@ -42,6 +42,8 @@ dependencies:
   flutter_google_places: ^0.3.0
   google_maps_flutter: ^2.2.5
   provider: ^6.0.5  
+  firebase_messaging: ^14.5.0
+  flutter_local_notifications: ^14.0.0+1
 
 
 dev_dependencies:
